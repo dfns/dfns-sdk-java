@@ -1,0 +1,12 @@
+package co.dfns.sdk.keys.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record ExportKeyRequest(
+    @JsonProperty("encryptionKey") String encryptionKey,
+    @JsonProperty("supportedSchemes") List<Map<String, Object>> supportedSchemes
+) {}
