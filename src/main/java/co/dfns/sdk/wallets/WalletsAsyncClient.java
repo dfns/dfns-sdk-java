@@ -14,6 +14,16 @@ public class WalletsAsyncClient {
         this.httpClient = httpClient;
     }
 
+    /** Abort Transaction */
+    public CompletableFuture<TransactionRequest> abortTransaction(String walletId, String transactionId) {
+        return httpClient.putAsync("/wallets/" + walletId + "/transactions/" + transactionId + "/abort", java.util.Map.of(), null, TransactionRequest.class, true);
+    }
+
+    /** Abort Transfer */
+    public CompletableFuture<TransferRequest> abortTransfer(String walletId, String transferId) {
+        return httpClient.putAsync("/wallets/" + walletId + "/transfers/" + transferId + "/abort", java.util.Map.of(), null, TransferRequest.class, true);
+    }
+
     /** Activate Wallet */
     public CompletableFuture<TransactionRequest> activateWallet(String walletId, Object body) {
         return httpClient.postAsync("/wallets/" + walletId + "/activate", java.util.Map.of(), body, TransactionRequest.class, true);
@@ -37,6 +47,12 @@ public class WalletsAsyncClient {
     /** Cancel Transfer */
     public CompletableFuture<TransactionRequest> cancelTransfer(String walletId, String transferId) {
         return httpClient.postAsync("/wallets/" + walletId + "/transfers/" + transferId + "/cancel", java.util.Map.of(), null, TransactionRequest.class, true);
+    }
+
+    /** Proxy a request to the Canton Ledger API */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> proxyARequestToTheCantonLedgerApi(String walletId, ProxyARequestToTheCantonLedgerApiRequest body) {
+        return httpClient.postAsync("/wallets/" + walletId + "/canton/ledger-api", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, false);
     }
 
     /** Speed Up Transaction */
