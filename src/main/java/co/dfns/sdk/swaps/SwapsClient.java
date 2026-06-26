@@ -4,7 +4,6 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.swaps.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 
 public class SwapsClient {
     private final DfnsHttpClient httpClient;
@@ -19,12 +18,12 @@ public class SwapsClient {
     }
 
     /** Create Swap */
-    public Swap createSwap(CreateSwapRequest body) {
+    public Swap createSwap(Object body) {
         return httpClient.post("/swaps", java.util.Map.of(), body, Swap.class, true);
     }
 
     /** Request Swap Quote */
-    public SwapQuote requestSwapQuote(RequestSwapQuoteRequest body) {
+    public SwapQuote requestSwapQuote(Object body) {
         return httpClient.post("/swaps/quotes", java.util.Map.of(), body, SwapQuote.class, false);
     }
 
