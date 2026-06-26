@@ -65,6 +65,12 @@ public class AuthClient {
         return httpClient.put("/auth/credentials/activate", java.util.Map.of(), body, ActivateCredentialResponse.class, true);
     }
 
+    /** Delete Credential */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deleteCredential(String credentialUuid) {
+        return httpClient.delete("/auth/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
     /** Deactivate Credential */
     public DeactivateCredentialResponse deactivateCredential(DeactivateCredentialRequest body) {
         return httpClient.put("/auth/credentials/deactivate", java.util.Map.of(), body, DeactivateCredentialResponse.class, true);
@@ -123,6 +129,11 @@ public class AuthClient {
     /** Initiate SSO Login */
     public InitiateSsoLoginResponse initiateSsoLogin(InitiateSsoLoginRequest body) {
         return httpClient.post("/auth/login/sso/init", java.util.Map.of(), body, InitiateSsoLoginResponse.class, false);
+    }
+
+    /** Exchange Access Token */
+    public ExchangeAccessTokenResponse exchangeAccessToken(ExchangeAccessTokenRequest body) {
+        return httpClient.post("/auth/tokens", java.util.Map.of(), body, ExchangeAccessTokenResponse.class, false);
     }
 
     /** List Personal Access Tokens */
@@ -231,8 +242,8 @@ public class AuthClient {
     }
 
     /** Delete Service Account */
-    public DeleteServiceAccountResponse deleteServiceAccount(String serviceAccountId) {
-        return httpClient.delete("/auth/service-accounts/" + serviceAccountId, java.util.Map.of(), null, DeleteServiceAccountResponse.class, true);
+    public DeleteServiceAccountResponse deleteServiceAccount(String serviceAccountId, DeleteServiceAccountQuery query) {
+        return httpClient.delete("/auth/service-accounts/" + serviceAccountId, query.toMap(), null, DeleteServiceAccountResponse.class, true);
     }
 
     /** Activate Service Account */
@@ -241,8 +252,8 @@ public class AuthClient {
     }
 
     /** Deactivate Service Account */
-    public DeactivateServiceAccountResponse deactivateServiceAccount(String serviceAccountId) {
-        return httpClient.put("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), null, DeactivateServiceAccountResponse.class, true);
+    public DeactivateServiceAccountResponse deactivateServiceAccount(String serviceAccountId, DeactivateServiceAccountRequest body) {
+        return httpClient.put("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, true);
     }
 
     /** Activate User */
@@ -278,5 +289,11 @@ public class AuthClient {
     /** Create User */
     public User createUser(CreateUserRequest body) {
         return httpClient.post("/auth/users", java.util.Map.of(), body, User.class, true);
+    }
+
+    /** Invite Tenant User */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> inviteTenantUser(InviteTenantUserRequest body) {
+        return httpClient.post("/auth/users/invite", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 }
