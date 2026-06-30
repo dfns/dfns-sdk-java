@@ -4,7 +4,6 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 
 public class AllocationsClient {
     private final DfnsHttpClient httpClient;
@@ -29,7 +28,7 @@ public class AllocationsClient {
     }
 
     /** Create Allocation Action */
-    public Allocation createAllocationAction(String allocationId, CreateAllocationActionRequest body) {
+    public Allocation createAllocationAction(String allocationId, Object body) {
         return httpClient.post("/allocations/" + allocationId + "/actions", java.util.Map.of(), body, Allocation.class, true);
     }
 
