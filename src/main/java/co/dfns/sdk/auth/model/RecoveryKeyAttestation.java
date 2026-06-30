@@ -11,6 +11,6 @@ public record RecoveryKeyAttestation(
     @JsonProperty("credentialInfo") Map<String, Object> credentialInfo,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("encryptedPrivateKey") String encryptedPrivateKey,
-    @JsonProperty("credentialName") String credentialName,
-    @JsonProperty("challengeIdentifier") String challengeIdentifier
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("credentialName") String credentialName
 ) {}
