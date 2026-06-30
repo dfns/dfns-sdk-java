@@ -66,6 +66,12 @@ public class AuthAsyncClient {
         return httpClient.putAsync("/auth/credentials/activate", java.util.Map.of(), body, ActivateCredentialResponse.class, true);
     }
 
+    /** Delete Credential */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deleteCredential(String credentialUuid) {
+        return httpClient.deleteAsync("/auth/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
     /** Deactivate Credential */
     public CompletableFuture<DeactivateCredentialResponse> deactivateCredential(DeactivateCredentialRequest body) {
         return httpClient.putAsync("/auth/credentials/deactivate", java.util.Map.of(), body, DeactivateCredentialResponse.class, true);
@@ -124,6 +130,11 @@ public class AuthAsyncClient {
     /** Initiate SSO Login */
     public CompletableFuture<InitiateSsoLoginResponse> initiateSsoLogin(InitiateSsoLoginRequest body) {
         return httpClient.postAsync("/auth/login/sso/init", java.util.Map.of(), body, InitiateSsoLoginResponse.class, false);
+    }
+
+    /** Exchange Access Token */
+    public CompletableFuture<ExchangeAccessTokenResponse> exchangeAccessToken(ExchangeAccessTokenRequest body) {
+        return httpClient.postAsync("/auth/tokens", java.util.Map.of(), body, ExchangeAccessTokenResponse.class, false);
     }
 
     /** List Personal Access Tokens */
@@ -232,8 +243,8 @@ public class AuthAsyncClient {
     }
 
     /** Delete Service Account */
-    public CompletableFuture<DeleteServiceAccountResponse> deleteServiceAccount(String serviceAccountId) {
-        return httpClient.deleteAsync("/auth/service-accounts/" + serviceAccountId, java.util.Map.of(), null, DeleteServiceAccountResponse.class, true);
+    public CompletableFuture<DeleteServiceAccountResponse> deleteServiceAccount(String serviceAccountId, DeleteServiceAccountQuery query) {
+        return httpClient.deleteAsync("/auth/service-accounts/" + serviceAccountId, query.toMap(), null, DeleteServiceAccountResponse.class, true);
     }
 
     /** Activate Service Account */
@@ -242,8 +253,8 @@ public class AuthAsyncClient {
     }
 
     /** Deactivate Service Account */
-    public CompletableFuture<DeactivateServiceAccountResponse> deactivateServiceAccount(String serviceAccountId) {
-        return httpClient.putAsync("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), null, DeactivateServiceAccountResponse.class, true);
+    public CompletableFuture<DeactivateServiceAccountResponse> deactivateServiceAccount(String serviceAccountId, DeactivateServiceAccountRequest body) {
+        return httpClient.putAsync("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, true);
     }
 
     /** Activate User */
@@ -279,5 +290,11 @@ public class AuthAsyncClient {
     /** Create User */
     public CompletableFuture<User> createUser(CreateUserRequest body) {
         return httpClient.postAsync("/auth/users", java.util.Map.of(), body, User.class, true);
+    }
+
+    /** Invite Tenant User */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> inviteTenantUser(InviteTenantUserRequest body) {
+        return httpClient.postAsync("/auth/users/invite", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 }
