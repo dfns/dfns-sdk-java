@@ -26,7 +26,13 @@ jobs:
         with:
           java-version: '17'
           distribution: temurin
-          cache: gradle
+
+      # Provisions Gradle (version read from gradle/wrapper/gradle-wrapper.properties)
+      # and handles dependency caching, so the wrapper jar need not be committed.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+        with:
+          gradle-version: wrapper
 
       - name: Build and test
-        run: ./gradlew build --no-daemon
+        run: gradle build --no-daemon
