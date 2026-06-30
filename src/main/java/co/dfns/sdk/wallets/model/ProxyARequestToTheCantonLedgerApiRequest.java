@@ -1,4 +1,4 @@
-package co.dfns.sdk.auth.model;
+package co.dfns.sdk.wallets.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record SecondFactorAttestation(
-    @JsonProperty("credentialKind") String credentialKind,
-    @JsonProperty("credentialInfo") Map<String, Object> credentialInfo,
+public record ProxyARequestToTheCantonLedgerApiRequest(
+    @JsonProperty("requestMethod") String requestMethod,
+    @JsonProperty("resource") String resource,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("credentialName") String credentialName
+    @JsonProperty("body") Map<String, Object> body
 ) {}
