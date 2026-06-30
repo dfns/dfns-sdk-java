@@ -13,7 +13,9 @@ public record SwapQuote(
     @JsonProperty("provider") String provider,
     @JsonProperty("sourceAsset") Object sourceAsset,
     @JsonProperty("targetAsset") Object targetAsset,
-    @JsonProperty("slippageBps") double slippageBps,
+    @JsonProperty("slippageBps") long slippageBps,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("fee") String fee,
     @JsonProperty("dateCreated") String dateCreated,
     @JsonProperty("requestBody") Object requestBody,
     @JsonProperty("requester") Requester requester

@@ -4,7 +4,6 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.swaps.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class SwapsAsyncClient {
@@ -20,12 +19,12 @@ public class SwapsAsyncClient {
     }
 
     /** Create Swap */
-    public CompletableFuture<Swap> createSwap(CreateSwapRequest body) {
+    public CompletableFuture<Swap> createSwap(Object body) {
         return httpClient.postAsync("/swaps", java.util.Map.of(), body, Swap.class, true);
     }
 
     /** Request Swap Quote */
-    public CompletableFuture<SwapQuote> requestSwapQuote(RequestSwapQuoteRequest body) {
+    public CompletableFuture<SwapQuote> requestSwapQuote(Object body) {
         return httpClient.postAsync("/swaps/quotes", java.util.Map.of(), body, SwapQuote.class, false);
     }
 
