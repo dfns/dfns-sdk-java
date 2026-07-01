@@ -2,9 +2,9 @@ package co.dfns.sdk.webhooks;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.webhooks.model.*;
-import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class WebhooksAsyncClient {
@@ -15,13 +15,13 @@ public class WebhooksAsyncClient {
     }
 
     /** List Webhooks */
-    public CompletableFuture<ListWebhooksResponse> listWebhooks(ListWebhooksQuery query) {
-        return httpClient.getAsync("/webhooks", query.toMap(), ListWebhooksResponse.class);
+    public CompletableFuture<PaginatedList<Webhook>> listWebhooks(ListWebhooksQuery query) {
+        return httpClient.getAsync("/webhooks", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<Webhook>>() {});
     }
 
     /** Create Webhook */
-    public CompletableFuture<Webhook> createWebhook(CreateWebhookRequest body) {
-        return httpClient.postAsync("/webhooks", java.util.Map.of(), body, Webhook.class, true);
+    public CompletableFuture<WebhookWithSecret> createWebhook(CreateWebhookRequest body) {
+        return httpClient.postAsync("/webhooks", java.util.Map.of(), body, WebhookWithSecret.class, true);
     }
 
     /** Get Webhook */

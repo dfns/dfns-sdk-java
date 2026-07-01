@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Webhook(
+public record WebhookWithSecret(
     @JsonProperty("id") String id,
     @JsonProperty("url") String url,
     @JsonProperty("events") List<Object> events,
@@ -14,5 +14,6 @@ public record Webhook(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("description") String description,
     @JsonProperty("dateCreated") String dateCreated,
-    @JsonProperty("dateUpdated") String dateUpdated
+    @JsonProperty("dateUpdated") String dateUpdated,
+    @JsonProperty("secret") String secret
 ) {}

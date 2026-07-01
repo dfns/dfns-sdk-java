@@ -13,7 +13,10 @@ public record User(
     @JsonProperty("userId") String userId,
     @JsonProperty("kind") String kind,
     @JsonProperty("credentialUuid") String credentialUuid,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("orgId") String orgId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("tenantId") String tenantId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("permissions") List<String> permissions,
     @JsonProperty("isActive") Boolean isActive,
