@@ -32,5 +32,9 @@ public record TransferRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("externalId") String externalId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("feeSponsorId") String feeSponsorId
+    @JsonProperty("feeSponsorId") String feeSponsorId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("replacementId") String replacementId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("details") Map<String, Object> details
 ) {}

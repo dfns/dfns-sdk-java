@@ -2,9 +2,9 @@ package co.dfns.sdk.webhooks;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.webhooks.model.*;
-import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 
 public class WebhooksClient {
     private final DfnsHttpClient httpClient;
@@ -14,13 +14,13 @@ public class WebhooksClient {
     }
 
     /** List Webhooks */
-    public ListWebhooksResponse listWebhooks(ListWebhooksQuery query) {
-        return httpClient.get("/webhooks", query.toMap(), ListWebhooksResponse.class);
+    public PaginatedList<Webhook> listWebhooks(ListWebhooksQuery query) {
+        return httpClient.get("/webhooks", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<Webhook>>() {});
     }
 
     /** Create Webhook */
-    public Webhook createWebhook(CreateWebhookRequest body) {
-        return httpClient.post("/webhooks", java.util.Map.of(), body, Webhook.class, true);
+    public WebhookWithSecret createWebhook(CreateWebhookRequest body) {
+        return httpClient.post("/webhooks", java.util.Map.of(), body, WebhookWithSecret.class, true);
     }
 
     /** Get Webhook */

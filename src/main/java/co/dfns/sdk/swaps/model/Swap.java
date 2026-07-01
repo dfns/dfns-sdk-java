@@ -20,5 +20,7 @@ public record Swap(
     @JsonProperty("requestBody") Object requestBody,
     @JsonProperty("requester") Requester requester,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("failureReason") String failureReason
+    @JsonProperty("failureReason") String failureReason,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("protocolStatus") String protocolStatus
 ) {}
