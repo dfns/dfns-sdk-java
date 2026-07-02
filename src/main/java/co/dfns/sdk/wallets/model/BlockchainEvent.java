@@ -15,6 +15,7 @@ public record BlockchainEvent(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("index") String index,
     @JsonProperty("timestamp") String timestamp,
+    @JsonProperty("status") String status,
     @JsonProperty("metadata") Map<String, Object> metadata,
     @JsonProperty("kind") String kind,
     @JsonInclude(JsonInclude.Include.NON_NULL)

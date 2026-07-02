@@ -3,6 +3,7 @@ package co.dfns.sdk.wallets.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record TransactionRequest(
@@ -28,5 +29,9 @@ public record TransactionRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("dateConfirmed") String dateConfirmed,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("externalId") String externalId
+    @JsonProperty("externalId") String externalId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("replacementId") String replacementId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("details") Map<String, Object> details
 ) {}
