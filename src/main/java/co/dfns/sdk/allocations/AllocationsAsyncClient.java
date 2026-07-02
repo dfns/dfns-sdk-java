@@ -4,7 +4,6 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class AllocationsAsyncClient {
@@ -30,7 +29,7 @@ public class AllocationsAsyncClient {
     }
 
     /** Create Allocation Action */
-    public CompletableFuture<Allocation> createAllocationAction(String allocationId, CreateAllocationActionRequest body) {
+    public CompletableFuture<Allocation> createAllocationAction(String allocationId, Object body) {
         return httpClient.postAsync("/allocations/" + allocationId + "/actions", java.util.Map.of(), body, Allocation.class, true);
     }
 

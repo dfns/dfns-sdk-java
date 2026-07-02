@@ -37,5 +37,7 @@ public record SignatureRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("dateConfirmed") String dateConfirmed,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("externalId") String externalId
+    @JsonProperty("externalId") String externalId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("details") Map<String, Object> details
 ) {}

@@ -245,6 +245,97 @@ public class DfnsHttpClient implements AutoCloseable {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T postMultipart(String path, Map<String, String> query, Object body, byte[] file, Class<T> responseType, boolean requiresUserAction) {
+        try {
+            Map<String, Object> data = body != null
+                ? mapper.convertValue(body, Map.class)
+                : new java.util.LinkedHashMap<>();
+            data.put("fileChecksum", sha256Hex(file));
+            String dataJson = mapper.writeValueAsString(data);
+
+            String userAction = null;
+            if (requiresUserAction && config.getSigner() != null) {
+                userAction = obtainUserActionToken("POST", path, data);
+            }
+            return execute(buildMultipartRequest("POST", path, query, dataJson, file, userAction), responseType);
+        } catch (DfnsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DfnsException("Failed to perform multipart upload: " + e.getMessage(), e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> CompletableFuture<T> postMultipartAsync(String path, Map<String, String> query, Object body, byte[] file, Class<T> responseType, boolean requiresUserAction) {
+        try {
+            Map<String, Object> data = body != null
+                ? mapper.convertValue(body, Map.class)
+                : new java.util.LinkedHashMap<>();
+            data.put("fileChecksum", sha256Hex(file));
+            String dataJson = mapper.writeValueAsString(data);
+
+            if (requiresUserAction && config.getSigner() != null) {
+                return obtainUserActionTokenAsync("POST", path, data)
+                    .thenCompose(userAction -> executeAsync(buildMultipartRequest("POST", path, query, dataJson, file, userAction), responseType));
+            }
+            return executeAsync(buildMultipartRequest("POST", path, query, dataJson, file, null), responseType);
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(new DfnsException("Failed to perform multipart upload: " + e.getMessage(), e));
+        }
+    }
+
+    private HttpRequest buildMultipartRequest(String method, String path, Map<String, String> query, String dataJson, byte[] file, String userAction) {
+        try {
+            String url = config.getBaseUrl() + path;
+            if (!query.isEmpty()) {
+                String qs = query.entrySet().stream()
+                    .map(e -> java.net.URLEncoder.encode(e.getKey(), java.nio.charset.StandardCharsets.UTF_8) + "=" + java.net.URLEncoder.encode(e.getValue(), java.nio.charset.StandardCharsets.UTF_8))
+                    .reduce("", (a, b) -> a.isEmpty() ? b : a + "&" + b);
+                url += "?" + qs;
+            }
+
+            String boundary = "DfnsBoundary" + Long.toHexString(System.nanoTime());
+            String crlf = "\r\n";
+            java.nio.charset.Charset utf8 = java.nio.charset.StandardCharsets.UTF_8;
+            java.util.List<byte[]> parts = new java.util.ArrayList<>();
+            parts.add(("--" + boundary + crlf
+                + "Content-Disposition: form-data; name=\"data\"" + crlf + crlf
+                + dataJson + crlf).getBytes(utf8));
+            parts.add(("--" + boundary + crlf
+                + "Content-Disposition: form-data; name=\"file\"; filename=\"upload.bin\"" + crlf
+                + "Content-Type: application/octet-stream" + crlf + crlf).getBytes(utf8));
+            parts.add(file);
+            parts.add((crlf + "--" + boundary + "--" + crlf).getBytes(utf8));
+
+            HttpRequest.Builder req = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .method(method, HttpRequest.BodyPublishers.ofByteArrays(parts))
+                .header("Content-Type", "multipart/form-data; boundary=" + boundary)
+                .header(DFNS_AUTH_TOKEN_HEADER, "Bearer " + config.getAuthToken())
+                .timeout(config.getRequestTimeout());
+
+            if (userAction != null) req.header(DFNS_USER_ACTION_HEADER, userAction);
+
+            return req.build();
+        } catch (Exception e) {
+            throw new DfnsException("Failed to build multipart request: " + e.getMessage(), e);
+        }
+    }
+
+    private static String sha256Hex(byte[] bytes) {
+        try {
+            byte[] digest = java.security.MessageDigest.getInstance("SHA-256").digest(bytes);
+            StringBuilder sb = new StringBuilder(digest.length * 2);
+            for (byte b : digest) {
+                sb.append(Character.forDigit((b >> 4) & 0xF, 16)).append(Character.forDigit(b & 0xF, 16));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new DfnsException("SHA-256 not available: " + e.getMessage(), e);
+        }
+    }
+
     private <T> T execute(HttpRequest request, Class<T> responseType) {
         try {
             HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
