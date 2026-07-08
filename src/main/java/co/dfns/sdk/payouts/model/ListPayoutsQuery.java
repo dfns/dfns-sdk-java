@@ -9,6 +9,7 @@ public class ListPayoutsQuery {
     private String paginationToken;
     private String walletId;
     private List<String> status;
+    private List<String> provider;
 
     public ListPayoutsQuery limit(Long limit) {
         this.limit = limit;
@@ -30,12 +31,18 @@ public class ListPayoutsQuery {
         return this;
     }
 
+    public ListPayoutsQuery provider(List<String> provider) {
+        this.provider = provider;
+        return this;
+    }
+
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<>();
         if (limit != null) map.put("limit", String.valueOf(limit));
         if (paginationToken != null) map.put("paginationToken", String.valueOf(paginationToken));
         if (walletId != null) map.put("walletId", String.valueOf(walletId));
         if (status != null) map.put("status", String.valueOf(status));
+        if (provider != null) map.put("provider", String.valueOf(provider));
         return map;
     }
 }

@@ -214,6 +214,99 @@ public class DfnsHttpClient implements AutoCloseable {
         }
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Delegated user action signing (init/complete split)
+    //
+    // These expose the two halves of user action signing so a challenge can be
+    // signed out-of-band (e.g. by an end user's device) instead of by a Signer
+    // held in this process. createUserActionChallenge returns the challenge to
+    // sign; completeUserActionSigning exchanges the signed assertion for a token;
+    // executeWithUserAction issues the request with that token.
+
+    public UserActionChallenge createUserActionChallenge(String method, String path, Object body) {
+        try {
+            String bodyJson = body != null ? mapper.writeValueAsString(body) : "{}";
+            String initBody = mapper.writeValueAsString(Map.of(
+                "userActionHttpMethod", method,
+                "userActionHttpPath",   path,
+                "userActionPayload",    bodyJson,
+                "userActionServerKind", "Api"
+            ));
+            HttpRequest initReq = buildRequest("POST", "/auth/action/init", Map.of(), initBody, null);
+            return execute(initReq, UserActionChallenge.class);
+        } catch (DfnsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DfnsException("Failed to create user action challenge: " + e.getMessage(), e);
+        }
+    }
+
+    public CompletableFuture<UserActionChallenge> createUserActionChallengeAsync(String method, String path, Object body) {
+        try {
+            String bodyJson = body != null ? mapper.writeValueAsString(body) : "{}";
+            String initBody = mapper.writeValueAsString(Map.of(
+                "userActionHttpMethod", method,
+                "userActionHttpPath",   path,
+                "userActionPayload",    bodyJson,
+                "userActionServerKind", "Api"
+            ));
+            HttpRequest initReq = buildRequest("POST", "/auth/action/init", Map.of(), initBody, null);
+            return executeAsync(initReq, UserActionChallenge.class);
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(
+                new DfnsException("Failed to create user action challenge: " + e.getMessage(), e));
+        }
+    }
+
+    public String completeUserActionSigning(String challengeIdentifier, co.dfns.sdk.auth.CredentialAssertion assertion) {
+        try {
+            String signBody = mapper.writeValueAsString(Map.of(
+                "challengeIdentifier", challengeIdentifier,
+                "firstFactor", assertion
+            ));
+            HttpRequest signReq = buildRequest("POST", "/auth/action", Map.of(), signBody, null);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> signResp = execute(signReq, Map.class);
+            return (String) signResp.get("userAction");
+        } catch (DfnsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DfnsException("Failed to complete user action signing: " + e.getMessage(), e);
+        }
+    }
+
+    public CompletableFuture<String> completeUserActionSigningAsync(String challengeIdentifier, co.dfns.sdk.auth.CredentialAssertion assertion) {
+        try {
+            String signBody = mapper.writeValueAsString(Map.of(
+                "challengeIdentifier", challengeIdentifier,
+                "firstFactor", assertion
+            ));
+            HttpRequest signReq = buildRequest("POST", "/auth/action", Map.of(), signBody, null);
+            @SuppressWarnings("unchecked")
+            Class<Map<String, Object>> mapClass = (Class<Map<String, Object>>) (Class<?>) Map.class;
+            return executeAsync(signReq, mapClass).thenApply(signResp -> (String) signResp.get("userAction"));
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(
+                new DfnsException("Failed to complete user action signing: " + e.getMessage(), e));
+        }
+    }
+
+    public <T> T executeWithUserAction(String method, String path, Map<String, String> query, Object body, Class<T> responseType, String userAction) {
+        return execute(buildRequest(method, path, query, body, userAction), responseType);
+    }
+
+    public <T> T executeWithUserAction(String method, String path, Map<String, String> query, Object body, TypeReference<T> responseType, String userAction) {
+        return executeWithTypeRef(buildRequest(method, path, query, body, userAction), responseType);
+    }
+
+    public <T> CompletableFuture<T> executeWithUserActionAsync(String method, String path, Map<String, String> query, Object body, Class<T> responseType, String userAction) {
+        return executeAsync(buildRequest(method, path, query, body, userAction), responseType);
+    }
+
+    public <T> CompletableFuture<T> executeWithUserActionAsync(String method, String path, Map<String, String> query, Object body, TypeReference<T> responseType, String userAction) {
+        return executeAsyncWithTypeRef(buildRequest(method, path, query, body, userAction), responseType);
+    }
+
     private HttpRequest buildRequest(String method, String path, Map<String, String> query, Object body, String userAction) {
         try {
             String url = config.getBaseUrl() + path;
