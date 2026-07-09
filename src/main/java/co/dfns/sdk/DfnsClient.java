@@ -8,12 +8,14 @@ import co.dfns.sdk.exchanges.ExchangesClient;
 import co.dfns.sdk.feesponsors.FeeSponsorsClient;
 import co.dfns.sdk.keys.KeysClient;
 import co.dfns.sdk.networks.NetworksClient;
+import co.dfns.sdk.payins.PayinsClient;
 import co.dfns.sdk.payouts.PayoutsClient;
 import co.dfns.sdk.permissions.PermissionsClient;
 import co.dfns.sdk.policies.PoliciesClient;
 import co.dfns.sdk.signers.SignersClient;
 import co.dfns.sdk.staking.StakingClient;
 import co.dfns.sdk.swaps.SwapsClient;
+import co.dfns.sdk.vaults.VaultsClient;
 import co.dfns.sdk.wallets.WalletsClient;
 import co.dfns.sdk.webhooks.WebhooksClient;
 
@@ -27,12 +29,14 @@ public class DfnsClient implements AutoCloseable {
     public final FeeSponsorsClient feeSponsors;
     public final KeysClient keys;
     public final NetworksClient networks;
+    public final PayinsClient payins;
     public final PayoutsClient payouts;
     public final PermissionsClient permissions;
     public final PoliciesClient policies;
     public final SignersClient signers;
     public final StakingClient staking;
     public final SwapsClient swaps;
+    public final VaultsClient vaults;
     public final WalletsClient wallets;
     public final WebhooksClient webhooks;
 
@@ -45,12 +49,14 @@ public class DfnsClient implements AutoCloseable {
         this.feeSponsors = new FeeSponsorsClient(httpClient);
         this.keys = new KeysClient(httpClient);
         this.networks = new NetworksClient(httpClient);
+        this.payins = new PayinsClient(httpClient);
         this.payouts = new PayoutsClient(httpClient);
         this.permissions = new PermissionsClient(httpClient);
         this.policies = new PoliciesClient(httpClient);
         this.signers = new SignersClient(httpClient);
         this.staking = new StakingClient(httpClient);
         this.swaps = new SwapsClient(httpClient);
+        this.vaults = new VaultsClient(httpClient);
         this.wallets = new WalletsClient(httpClient);
         this.webhooks = new WebhooksClient(httpClient);
     }

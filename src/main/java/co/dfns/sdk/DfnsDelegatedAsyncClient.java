@@ -8,12 +8,14 @@ import co.dfns.sdk.exchanges.DelegatedExchangesAsyncClient;
 import co.dfns.sdk.feesponsors.DelegatedFeeSponsorsAsyncClient;
 import co.dfns.sdk.keys.DelegatedKeysAsyncClient;
 import co.dfns.sdk.networks.DelegatedNetworksAsyncClient;
+import co.dfns.sdk.payins.DelegatedPayinsAsyncClient;
 import co.dfns.sdk.payouts.DelegatedPayoutsAsyncClient;
 import co.dfns.sdk.permissions.DelegatedPermissionsAsyncClient;
 import co.dfns.sdk.policies.DelegatedPoliciesAsyncClient;
 import co.dfns.sdk.signers.DelegatedSignersAsyncClient;
 import co.dfns.sdk.staking.DelegatedStakingAsyncClient;
 import co.dfns.sdk.swaps.DelegatedSwapsAsyncClient;
+import co.dfns.sdk.vaults.DelegatedVaultsAsyncClient;
 import co.dfns.sdk.wallets.DelegatedWalletsAsyncClient;
 import co.dfns.sdk.webhooks.DelegatedWebhooksAsyncClient;
 
@@ -31,12 +33,14 @@ public class DfnsDelegatedAsyncClient implements AutoCloseable {
     public final DelegatedFeeSponsorsAsyncClient feeSponsors;
     public final DelegatedKeysAsyncClient keys;
     public final DelegatedNetworksAsyncClient networks;
+    public final DelegatedPayinsAsyncClient payins;
     public final DelegatedPayoutsAsyncClient payouts;
     public final DelegatedPermissionsAsyncClient permissions;
     public final DelegatedPoliciesAsyncClient policies;
     public final DelegatedSignersAsyncClient signers;
     public final DelegatedStakingAsyncClient staking;
     public final DelegatedSwapsAsyncClient swaps;
+    public final DelegatedVaultsAsyncClient vaults;
     public final DelegatedWalletsAsyncClient wallets;
     public final DelegatedWebhooksAsyncClient webhooks;
 
@@ -49,12 +53,14 @@ public class DfnsDelegatedAsyncClient implements AutoCloseable {
         this.feeSponsors = new DelegatedFeeSponsorsAsyncClient(httpClient);
         this.keys = new DelegatedKeysAsyncClient(httpClient);
         this.networks = new DelegatedNetworksAsyncClient(httpClient);
+        this.payins = new DelegatedPayinsAsyncClient(httpClient);
         this.payouts = new DelegatedPayoutsAsyncClient(httpClient);
         this.permissions = new DelegatedPermissionsAsyncClient(httpClient);
         this.policies = new DelegatedPoliciesAsyncClient(httpClient);
         this.signers = new DelegatedSignersAsyncClient(httpClient);
         this.staking = new DelegatedStakingAsyncClient(httpClient);
         this.swaps = new DelegatedSwapsAsyncClient(httpClient);
+        this.vaults = new DelegatedVaultsAsyncClient(httpClient);
         this.wallets = new DelegatedWalletsAsyncClient(httpClient);
         this.webhooks = new DelegatedWebhooksAsyncClient(httpClient);
     }
