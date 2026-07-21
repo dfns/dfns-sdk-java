@@ -13,6 +13,8 @@ public record Swap(
     @JsonProperty("targetWalletId") String targetWalletId,
     @JsonProperty("status") String status,
     @JsonProperty("provider") String provider,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("feeSponsorId") String feeSponsorId,
     @JsonProperty("quotedSourceAsset") Object quotedSourceAsset,
     @JsonProperty("quotedTargetAsset") Object quotedTargetAsset,
     @JsonProperty("slippageBps") double slippageBps,

@@ -27,6 +27,11 @@ public class SignersAsyncClient {
         return httpClient.postAsync("/key-stores/" + storeId + "/genesis/input", java.util.Map.of(), body, Object.class, true);
     }
 
+    /** Create Key Harvest Input */
+    public CompletableFuture<Object> createKeyHarvestInput(String storeId, CreateKeyHarvestInputRequest body) {
+        return httpClient.postAsync("/key-stores/" + storeId + "/key-harvest/input", java.util.Map.of(), body, Object.class, true);
+    }
+
     /** Create Onchain Sign Input */
     public CompletableFuture<Object> createOnchainSignInput(String storeId, Map<String, Object> body) {
         return httpClient.postAsync("/key-stores/" + storeId + "/onchain-sign/input", java.util.Map.of(), body, Object.class, true);
@@ -60,6 +65,11 @@ public class SignersAsyncClient {
     /** Submit Genesis Output */
     public CompletableFuture<SubmitGenesisOutputResponse> submitGenesisOutput(String storeId, SubmitGenesisOutputRequest body, byte[] file) {
         return httpClient.postMultipartAsync("/key-stores/" + storeId + "/genesis/output", java.util.Map.of(), body, file, SubmitGenesisOutputResponse.class, true);
+    }
+
+    /** Submit Key Harvest Output */
+    public CompletableFuture<SubmitKeyHarvestOutputResponse> submitKeyHarvestOutput(String storeId, SubmitKeyHarvestOutputRequest body, byte[] file) {
+        return httpClient.postMultipartAsync("/key-stores/" + storeId + "/key-harvest/output", java.util.Map.of(), body, file, SubmitKeyHarvestOutputResponse.class, true);
     }
 
     /** Submit Onchain Sign Output */
