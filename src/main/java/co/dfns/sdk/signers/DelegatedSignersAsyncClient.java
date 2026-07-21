@@ -47,6 +47,17 @@ public class DelegatedSignersAsyncClient {
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/key-stores/" + storeId + "/genesis/input", java.util.Map.of(), body, Object.class, userAction));
     }
 
+    /** Delegated signing step 1 for Create Key Harvest Input: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> createKeyHarvestInputInit(String storeId, CreateKeyHarvestInputRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/key-stores/" + storeId + "/key-harvest/input", body);
+    }
+
+    /** Delegated signing step 2 for Create Key Harvest Input: submits the signed challenge and issues the request. */
+    public CompletableFuture<Object> createKeyHarvestInputComplete(String storeId, CreateKeyHarvestInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/key-stores/" + storeId + "/key-harvest/input", java.util.Map.of(), body, Object.class, userAction));
+    }
+
     /** Delegated signing step 1 for Create Onchain Sign Input: returns the challenge to sign out-of-band. */
     public CompletableFuture<UserActionChallenge> createOnchainSignInputInit(String storeId, Map<String, Object> body) {
         return httpClient.createUserActionChallengeAsync("POST", "/key-stores/" + storeId + "/onchain-sign/input", body);
@@ -92,6 +103,11 @@ public class DelegatedSignersAsyncClient {
     /** Submit Genesis Output */
     public CompletableFuture<SubmitGenesisOutputResponse> submitGenesisOutput(String storeId, SubmitGenesisOutputRequest body, byte[] file) {
         return httpClient.postMultipartAsync("/key-stores/" + storeId + "/genesis/output", java.util.Map.of(), body, file, SubmitGenesisOutputResponse.class, true);
+    }
+
+    /** Submit Key Harvest Output */
+    public CompletableFuture<SubmitKeyHarvestOutputResponse> submitKeyHarvestOutput(String storeId, SubmitKeyHarvestOutputRequest body, byte[] file) {
+        return httpClient.postMultipartAsync("/key-stores/" + storeId + "/key-harvest/output", java.util.Map.of(), body, file, SubmitKeyHarvestOutputResponse.class, true);
     }
 
     /** Submit Onchain Sign Output */

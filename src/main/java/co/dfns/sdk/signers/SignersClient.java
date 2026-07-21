@@ -26,6 +26,11 @@ public class SignersClient {
         return httpClient.post("/key-stores/" + storeId + "/genesis/input", java.util.Map.of(), body, Object.class, true);
     }
 
+    /** Create Key Harvest Input */
+    public Object createKeyHarvestInput(String storeId, CreateKeyHarvestInputRequest body) {
+        return httpClient.post("/key-stores/" + storeId + "/key-harvest/input", java.util.Map.of(), body, Object.class, true);
+    }
+
     /** Create Onchain Sign Input */
     public Object createOnchainSignInput(String storeId, Map<String, Object> body) {
         return httpClient.post("/key-stores/" + storeId + "/onchain-sign/input", java.util.Map.of(), body, Object.class, true);
@@ -59,6 +64,11 @@ public class SignersClient {
     /** Submit Genesis Output */
     public SubmitGenesisOutputResponse submitGenesisOutput(String storeId, SubmitGenesisOutputRequest body, byte[] file) {
         return httpClient.postMultipart("/key-stores/" + storeId + "/genesis/output", java.util.Map.of(), body, file, SubmitGenesisOutputResponse.class, true);
+    }
+
+    /** Submit Key Harvest Output */
+    public SubmitKeyHarvestOutputResponse submitKeyHarvestOutput(String storeId, SubmitKeyHarvestOutputRequest body, byte[] file) {
+        return httpClient.postMultipart("/key-stores/" + storeId + "/key-harvest/output", java.util.Map.of(), body, file, SubmitKeyHarvestOutputResponse.class, true);
     }
 
     /** Submit Onchain Sign Output */

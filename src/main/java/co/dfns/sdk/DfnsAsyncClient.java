@@ -8,12 +8,14 @@ import co.dfns.sdk.exchanges.ExchangesAsyncClient;
 import co.dfns.sdk.feesponsors.FeeSponsorsAsyncClient;
 import co.dfns.sdk.keys.KeysAsyncClient;
 import co.dfns.sdk.networks.NetworksAsyncClient;
+import co.dfns.sdk.payins.PayinsAsyncClient;
 import co.dfns.sdk.payouts.PayoutsAsyncClient;
 import co.dfns.sdk.permissions.PermissionsAsyncClient;
 import co.dfns.sdk.policies.PoliciesAsyncClient;
 import co.dfns.sdk.signers.SignersAsyncClient;
 import co.dfns.sdk.staking.StakingAsyncClient;
 import co.dfns.sdk.swaps.SwapsAsyncClient;
+import co.dfns.sdk.vaults.VaultsAsyncClient;
 import co.dfns.sdk.wallets.WalletsAsyncClient;
 import co.dfns.sdk.webhooks.WebhooksAsyncClient;
 
@@ -27,12 +29,14 @@ public class DfnsAsyncClient implements AutoCloseable {
     public final FeeSponsorsAsyncClient feeSponsors;
     public final KeysAsyncClient keys;
     public final NetworksAsyncClient networks;
+    public final PayinsAsyncClient payins;
     public final PayoutsAsyncClient payouts;
     public final PermissionsAsyncClient permissions;
     public final PoliciesAsyncClient policies;
     public final SignersAsyncClient signers;
     public final StakingAsyncClient staking;
     public final SwapsAsyncClient swaps;
+    public final VaultsAsyncClient vaults;
     public final WalletsAsyncClient wallets;
     public final WebhooksAsyncClient webhooks;
 
@@ -45,12 +49,14 @@ public class DfnsAsyncClient implements AutoCloseable {
         this.feeSponsors = new FeeSponsorsAsyncClient(httpClient);
         this.keys = new KeysAsyncClient(httpClient);
         this.networks = new NetworksAsyncClient(httpClient);
+        this.payins = new PayinsAsyncClient(httpClient);
         this.payouts = new PayoutsAsyncClient(httpClient);
         this.permissions = new PermissionsAsyncClient(httpClient);
         this.policies = new PoliciesAsyncClient(httpClient);
         this.signers = new SignersAsyncClient(httpClient);
         this.staking = new StakingAsyncClient(httpClient);
         this.swaps = new SwapsAsyncClient(httpClient);
+        this.vaults = new VaultsAsyncClient(httpClient);
         this.wallets = new WalletsAsyncClient(httpClient);
         this.webhooks = new WebhooksAsyncClient(httpClient);
     }

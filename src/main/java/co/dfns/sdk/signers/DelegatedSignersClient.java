@@ -46,6 +46,17 @@ public class DelegatedSignersClient {
         return httpClient.executeWithUserAction("POST", "/key-stores/" + storeId + "/genesis/input", java.util.Map.of(), body, Object.class, userAction);
     }
 
+    /** Delegated signing step 1 for Create Key Harvest Input: returns the challenge to sign out-of-band. */
+    public UserActionChallenge createKeyHarvestInputInit(String storeId, CreateKeyHarvestInputRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/key-stores/" + storeId + "/key-harvest/input", body);
+    }
+
+    /** Delegated signing step 2 for Create Key Harvest Input: submits the signed challenge and issues the request. */
+    public Object createKeyHarvestInputComplete(String storeId, CreateKeyHarvestInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/key-stores/" + storeId + "/key-harvest/input", java.util.Map.of(), body, Object.class, userAction);
+    }
+
     /** Delegated signing step 1 for Create Onchain Sign Input: returns the challenge to sign out-of-band. */
     public UserActionChallenge createOnchainSignInputInit(String storeId, Map<String, Object> body) {
         return httpClient.createUserActionChallenge("POST", "/key-stores/" + storeId + "/onchain-sign/input", body);
@@ -91,6 +102,11 @@ public class DelegatedSignersClient {
     /** Submit Genesis Output */
     public SubmitGenesisOutputResponse submitGenesisOutput(String storeId, SubmitGenesisOutputRequest body, byte[] file) {
         return httpClient.postMultipart("/key-stores/" + storeId + "/genesis/output", java.util.Map.of(), body, file, SubmitGenesisOutputResponse.class, true);
+    }
+
+    /** Submit Key Harvest Output */
+    public SubmitKeyHarvestOutputResponse submitKeyHarvestOutput(String storeId, SubmitKeyHarvestOutputRequest body, byte[] file) {
+        return httpClient.postMultipart("/key-stores/" + storeId + "/key-harvest/output", java.util.Map.of(), body, file, SubmitKeyHarvestOutputResponse.class, true);
     }
 
     /** Submit Onchain Sign Output */

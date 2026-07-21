@@ -3,6 +3,7 @@ package co.dfns.sdk.signers.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateGenesisInputRequest(
@@ -14,5 +15,7 @@ public record CreateGenesisInputRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("macGenesisSerial") String macGenesisSerial,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("hsmGenesisFirmwareVersion") String hsmGenesisFirmwareVersion
+    @JsonProperty("hsmGenesisFirmwareVersion") String hsmGenesisFirmwareVersion,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("debugOptions") Map<String, Object> debugOptions
 ) {}
