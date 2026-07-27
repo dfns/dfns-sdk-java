@@ -11,9 +11,19 @@ public class SignersClient {
         this.httpClient = httpClient;
     }
 
+    /** Cancel Fleet Operation */
+    public CancelFleetOperationResponse cancelFleetOperation(String storeId, CancelFleetOperationRequest body) {
+        return httpClient.post("/key-stores/" + storeId + "/fleet-operations/cancel", java.util.Map.of(), body, CancelFleetOperationResponse.class, true);
+    }
+
     /** Create Add Mac User Input */
     public Object createAddMacUserInput(String storeId, CreateAddMacUserInputRequest body) {
         return httpClient.post("/key-stores/" + storeId + "/add-mac-user/input", java.util.Map.of(), body, Object.class, true);
+    }
+
+    /** Create Add Provisioner Input */
+    public Object createAddProvisionerInput(String storeId, CreateAddProvisionerInputRequest body) {
+        return httpClient.post("/key-stores/" + storeId + "/add-provisioner/input", java.util.Map.of(), body, Object.class, true);
     }
 
     /** Create Clone Input */
@@ -54,6 +64,11 @@ public class SignersClient {
     /** Submit Add Mac User Output */
     public SubmitAddMacUserOutputResponse submitAddMacUserOutput(String storeId, SubmitAddMacUserOutputRequest body, byte[] file) {
         return httpClient.postMultipart("/key-stores/" + storeId + "/add-mac-user/output", java.util.Map.of(), body, file, SubmitAddMacUserOutputResponse.class, true);
+    }
+
+    /** Submit Add Provisioner Output */
+    public SubmitAddProvisionerOutputResponse submitAddProvisionerOutput(String storeId, SubmitAddProvisionerOutputRequest body, byte[] file) {
+        return httpClient.postMultipart("/key-stores/" + storeId + "/add-provisioner/output", java.util.Map.of(), body, file, SubmitAddProvisionerOutputResponse.class, true);
     }
 
     /** Submit Clone Output */

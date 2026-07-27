@@ -7,7 +7,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GetWalletHistoryResponse(
-    @JsonProperty("items") List<BlockchainEvent> items,
+    @JsonProperty("items") List<WalletHistoryEvent> items,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("nextPageToken") String nextPageToken,
     @JsonProperty("walletId") String walletId,

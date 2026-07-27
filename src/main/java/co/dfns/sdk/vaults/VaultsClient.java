@@ -53,6 +53,11 @@ public class VaultsClient {
         return httpClient.get("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** Release Quarantine */
+    public ReleaseQuarantineResponse releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    }
+
     /** Tag Vault */
     @SuppressWarnings("unchecked")
     public Map<String, Object> tagVault(String vaultId, TagVaultRequest body) {
@@ -63,10 +68,5 @@ public class VaultsClient {
     @SuppressWarnings("unchecked")
     public Map<String, Object> untagVault(String vaultId, UntagVaultRequest body) {
         return httpClient.delete("/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
-    }
-
-    /** Unquarantine */
-    public UnquarantineResponse unquarantine(String vaultId, String quarantineId, UnquarantineRequest body) {
-        return httpClient.delete("/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), body, UnquarantineResponse.class, true);
     }
 }

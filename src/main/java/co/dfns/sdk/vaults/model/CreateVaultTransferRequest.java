@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateVaultTransferRequest(
-    @JsonProperty("network") String network,
+    @JsonProperty("network") Object network,
     @JsonProperty("tid") String tid,
     @JsonProperty("to") String to,
     @JsonProperty("amount") String amount,
