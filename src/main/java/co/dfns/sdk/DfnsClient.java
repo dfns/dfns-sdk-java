@@ -1,6 +1,7 @@
 package co.dfns.sdk;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
+import co.dfns.sdk.addresswatches.AddressWatchesClient;
 import co.dfns.sdk.agreements.AgreementsClient;
 import co.dfns.sdk.allocations.AllocationsClient;
 import co.dfns.sdk.auth.AuthClient;
@@ -22,6 +23,7 @@ import co.dfns.sdk.webhooks.WebhooksClient;
 /** Dfns SDK client. Provides access to all Dfns API domains. */
 public class DfnsClient implements AutoCloseable {
     private final DfnsHttpClient httpClient;
+    public final AddressWatchesClient addressWatches;
     public final AgreementsClient agreements;
     public final AllocationsClient allocations;
     public final AuthClient auth;
@@ -42,6 +44,7 @@ public class DfnsClient implements AutoCloseable {
 
     public DfnsClient(DfnsClientConfig config) {
         this.httpClient = new DfnsHttpClient(config);
+        this.addressWatches = new AddressWatchesClient(httpClient);
         this.agreements = new AgreementsClient(httpClient);
         this.allocations = new AllocationsClient(httpClient);
         this.auth = new AuthClient(httpClient);
