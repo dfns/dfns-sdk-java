@@ -12,9 +12,19 @@ public class SignersAsyncClient {
         this.httpClient = httpClient;
     }
 
+    /** Cancel Fleet Operation */
+    public CompletableFuture<CancelFleetOperationResponse> cancelFleetOperation(String storeId, CancelFleetOperationRequest body) {
+        return httpClient.postAsync("/key-stores/" + storeId + "/fleet-operations/cancel", java.util.Map.of(), body, CancelFleetOperationResponse.class, true);
+    }
+
     /** Create Add Mac User Input */
     public CompletableFuture<Object> createAddMacUserInput(String storeId, CreateAddMacUserInputRequest body) {
         return httpClient.postAsync("/key-stores/" + storeId + "/add-mac-user/input", java.util.Map.of(), body, Object.class, true);
+    }
+
+    /** Create Add Provisioner Input */
+    public CompletableFuture<Object> createAddProvisionerInput(String storeId, CreateAddProvisionerInputRequest body) {
+        return httpClient.postAsync("/key-stores/" + storeId + "/add-provisioner/input", java.util.Map.of(), body, Object.class, true);
     }
 
     /** Create Clone Input */
@@ -55,6 +65,11 @@ public class SignersAsyncClient {
     /** Submit Add Mac User Output */
     public CompletableFuture<SubmitAddMacUserOutputResponse> submitAddMacUserOutput(String storeId, SubmitAddMacUserOutputRequest body, byte[] file) {
         return httpClient.postMultipartAsync("/key-stores/" + storeId + "/add-mac-user/output", java.util.Map.of(), body, file, SubmitAddMacUserOutputResponse.class, true);
+    }
+
+    /** Submit Add Provisioner Output */
+    public CompletableFuture<SubmitAddProvisionerOutputResponse> submitAddProvisionerOutput(String storeId, SubmitAddProvisionerOutputRequest body, byte[] file) {
+        return httpClient.postMultipartAsync("/key-stores/" + storeId + "/add-provisioner/output", java.util.Map.of(), body, file, SubmitAddProvisionerOutputResponse.class, true);
     }
 
     /** Submit Clone Output */

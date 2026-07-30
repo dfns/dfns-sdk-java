@@ -14,6 +14,17 @@ public class DelegatedSignersAsyncClient {
         this.httpClient = httpClient;
     }
 
+    /** Delegated signing step 1 for Cancel Fleet Operation: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> cancelFleetOperationInit(String storeId, CancelFleetOperationRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/key-stores/" + storeId + "/fleet-operations/cancel", body);
+    }
+
+    /** Delegated signing step 2 for Cancel Fleet Operation: submits the signed challenge and issues the request. */
+    public CompletableFuture<CancelFleetOperationResponse> cancelFleetOperationComplete(String storeId, CancelFleetOperationRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/key-stores/" + storeId + "/fleet-operations/cancel", java.util.Map.of(), body, CancelFleetOperationResponse.class, userAction));
+    }
+
     /** Delegated signing step 1 for Create Add Mac User Input: returns the challenge to sign out-of-band. */
     public CompletableFuture<UserActionChallenge> createAddMacUserInputInit(String storeId, CreateAddMacUserInputRequest body) {
         return httpClient.createUserActionChallengeAsync("POST", "/key-stores/" + storeId + "/add-mac-user/input", body);
@@ -23,6 +34,17 @@ public class DelegatedSignersAsyncClient {
     public CompletableFuture<Object> createAddMacUserInputComplete(String storeId, CreateAddMacUserInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/key-stores/" + storeId + "/add-mac-user/input", java.util.Map.of(), body, Object.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Create Add Provisioner Input: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> createAddProvisionerInputInit(String storeId, CreateAddProvisionerInputRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/key-stores/" + storeId + "/add-provisioner/input", body);
+    }
+
+    /** Delegated signing step 2 for Create Add Provisioner Input: submits the signed challenge and issues the request. */
+    public CompletableFuture<Object> createAddProvisionerInputComplete(String storeId, CreateAddProvisionerInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/key-stores/" + storeId + "/add-provisioner/input", java.util.Map.of(), body, Object.class, userAction));
     }
 
     /** Delegated signing step 1 for Create Clone Input: returns the challenge to sign out-of-band. */
@@ -93,6 +115,11 @@ public class DelegatedSignersAsyncClient {
     /** Submit Add Mac User Output */
     public CompletableFuture<SubmitAddMacUserOutputResponse> submitAddMacUserOutput(String storeId, SubmitAddMacUserOutputRequest body, byte[] file) {
         return httpClient.postMultipartAsync("/key-stores/" + storeId + "/add-mac-user/output", java.util.Map.of(), body, file, SubmitAddMacUserOutputResponse.class, true);
+    }
+
+    /** Submit Add Provisioner Output */
+    public CompletableFuture<SubmitAddProvisionerOutputResponse> submitAddProvisionerOutput(String storeId, SubmitAddProvisionerOutputRequest body, byte[] file) {
+        return httpClient.postMultipartAsync("/key-stores/" + storeId + "/add-provisioner/output", java.util.Map.of(), body, file, SubmitAddProvisionerOutputResponse.class, true);
     }
 
     /** Submit Clone Output */

@@ -80,6 +80,17 @@ public class DelegatedVaultsAsyncClient {
         return httpClient.getAsync("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** Delegated signing step 1 for Release Quarantine: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> releaseQuarantineInit(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", body);
+    }
+
+    /** Delegated signing step 2 for Release Quarantine: submits the signed challenge and issues the request. */
+    public CompletableFuture<ReleaseQuarantineResponse> releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, userAction));
+    }
+
     /** Delegated signing step 1 for Tag Vault: returns the challenge to sign out-of-band. */
     public CompletableFuture<UserActionChallenge> tagVaultInit(String vaultId, TagVaultRequest body) {
         return httpClient.createUserActionChallengeAsync("PUT", "/vaults/" + vaultId + "/tags", body);
@@ -102,16 +113,5 @@ public class DelegatedVaultsAsyncClient {
     public CompletableFuture<Map<String, Object>> untagVaultComplete(String vaultId, UntagVaultRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
-    }
-
-    /** Delegated signing step 1 for Unquarantine: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> unquarantineInit(String vaultId, String quarantineId, UnquarantineRequest body) {
-        return httpClient.createUserActionChallengeAsync("DELETE", "/vaults/" + vaultId + "/quarantines/" + quarantineId, body);
-    }
-
-    /** Delegated signing step 2 for Unquarantine: submits the signed challenge and issues the request. */
-    public CompletableFuture<UnquarantineResponse> unquarantineComplete(String vaultId, String quarantineId, UnquarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
-        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), body, UnquarantineResponse.class, userAction));
     }
 }
