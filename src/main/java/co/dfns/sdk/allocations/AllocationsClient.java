@@ -4,6 +4,7 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 
 public class AllocationsClient {
     private final DfnsHttpClient httpClient;
@@ -35,5 +36,10 @@ public class AllocationsClient {
     /** Get Allocation */
     public Allocation getAllocation(String allocationId) {
         return httpClient.get("/allocations/" + allocationId, java.util.Map.of(), Allocation.class);
+    }
+
+    /** Get Allocations Info */
+    public GetAllocationsInfoResponse getAllocationsInfo() {
+        return httpClient.get("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
     }
 }

@@ -13,6 +13,17 @@ public class DelegatedSignersClient {
         this.httpClient = httpClient;
     }
 
+    /** Delegated signing step 1 for Cancel Fleet Operation: returns the challenge to sign out-of-band. */
+    public UserActionChallenge cancelFleetOperationInit(String storeId, CancelFleetOperationRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/key-stores/" + storeId + "/fleet-operations/cancel", body);
+    }
+
+    /** Delegated signing step 2 for Cancel Fleet Operation: submits the signed challenge and issues the request. */
+    public CancelFleetOperationResponse cancelFleetOperationComplete(String storeId, CancelFleetOperationRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/key-stores/" + storeId + "/fleet-operations/cancel", java.util.Map.of(), body, CancelFleetOperationResponse.class, userAction);
+    }
+
     /** Delegated signing step 1 for Create Add Mac User Input: returns the challenge to sign out-of-band. */
     public UserActionChallenge createAddMacUserInputInit(String storeId, CreateAddMacUserInputRequest body) {
         return httpClient.createUserActionChallenge("POST", "/key-stores/" + storeId + "/add-mac-user/input", body);
@@ -22,6 +33,17 @@ public class DelegatedSignersClient {
     public Object createAddMacUserInputComplete(String storeId, CreateAddMacUserInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("POST", "/key-stores/" + storeId + "/add-mac-user/input", java.util.Map.of(), body, Object.class, userAction);
+    }
+
+    /** Delegated signing step 1 for Create Add Provisioner Input: returns the challenge to sign out-of-band. */
+    public UserActionChallenge createAddProvisionerInputInit(String storeId, CreateAddProvisionerInputRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/key-stores/" + storeId + "/add-provisioner/input", body);
+    }
+
+    /** Delegated signing step 2 for Create Add Provisioner Input: submits the signed challenge and issues the request. */
+    public Object createAddProvisionerInputComplete(String storeId, CreateAddProvisionerInputRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/key-stores/" + storeId + "/add-provisioner/input", java.util.Map.of(), body, Object.class, userAction);
     }
 
     /** Delegated signing step 1 for Create Clone Input: returns the challenge to sign out-of-band. */
@@ -92,6 +114,11 @@ public class DelegatedSignersClient {
     /** Submit Add Mac User Output */
     public SubmitAddMacUserOutputResponse submitAddMacUserOutput(String storeId, SubmitAddMacUserOutputRequest body, byte[] file) {
         return httpClient.postMultipart("/key-stores/" + storeId + "/add-mac-user/output", java.util.Map.of(), body, file, SubmitAddMacUserOutputResponse.class, true);
+    }
+
+    /** Submit Add Provisioner Output */
+    public SubmitAddProvisionerOutputResponse submitAddProvisionerOutput(String storeId, SubmitAddProvisionerOutputRequest body, byte[] file) {
+        return httpClient.postMultipart("/key-stores/" + storeId + "/add-provisioner/output", java.util.Map.of(), body, file, SubmitAddProvisionerOutputResponse.class, true);
     }
 
     /** Submit Clone Output */

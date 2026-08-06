@@ -42,6 +42,22 @@ public class DelegatedVaultsClient {
         return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/addresses", java.util.Map.of(), body, VaultAddress.class, userAction);
     }
 
+    /** List Vault Locks */
+    public PaginatedList<VaultLock> listVaultLocks(String vaultId, ListVaultLocksQuery query) {
+        return httpClient.get("/vaults/" + vaultId + "/locks", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultLock>>() {});
+    }
+
+    /** Delegated signing step 1 for Create Vault Lock: returns the challenge to sign out-of-band. */
+    public UserActionChallenge createVaultLockInit(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/vaults/" + vaultId + "/locks", body);
+    }
+
+    /** Delegated signing step 2 for Create Vault Lock: submits the signed challenge and issues the request. */
+    public VaultLock createVaultLockComplete(String vaultId, CreateVaultLockRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, userAction);
+    }
+
     /** Delegated signing step 1 for Create Vault Transfer: returns the challenge to sign out-of-band. */
     public UserActionChallenge createVaultTransferInit(String vaultId, CreateVaultTransferRequest body) {
         return httpClient.createUserActionChallenge("POST", "/vaults/" + vaultId + "/transfers", body);
@@ -51,6 +67,22 @@ public class DelegatedVaultsClient {
     public TransferRequest createVaultTransferComplete(String vaultId, CreateVaultTransferRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/transfers", java.util.Map.of(), body, TransferRequest.class, userAction);
+    }
+
+    /** Get Vault Lock */
+    public VaultLock getVaultLock(String vaultId, String lockId) {
+        return httpClient.get("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
+    }
+
+    /** Delegated signing step 1 for Delete Vault Lock: returns the challenge to sign out-of-band. */
+    public UserActionChallenge deleteVaultLockInit(String vaultId, String lockId) {
+        return httpClient.createUserActionChallenge("DELETE", "/vaults/" + vaultId + "/locks/" + lockId, null);
+    }
+
+    /** Delegated signing step 2 for Delete Vault Lock: submits the signed challenge and issues the request. */
+    public VaultLock deleteVaultLockComplete(String vaultId, String lockId, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("DELETE", "/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), null, VaultLock.class, userAction);
     }
 
     /** Get Vault */
@@ -79,6 +111,17 @@ public class DelegatedVaultsClient {
         return httpClient.get("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** Delegated signing step 1 for Release Quarantine: returns the challenge to sign out-of-band. */
+    public UserActionChallenge releaseQuarantineInit(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", body);
+    }
+
+    /** Delegated signing step 2 for Release Quarantine: submits the signed challenge and issues the request. */
+    public ReleaseQuarantineResponse releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, userAction);
+    }
+
     /** Delegated signing step 1 for Tag Vault: returns the challenge to sign out-of-band. */
     public UserActionChallenge tagVaultInit(String vaultId, TagVaultRequest body) {
         return httpClient.createUserActionChallenge("PUT", "/vaults/" + vaultId + "/tags", body);
@@ -101,16 +144,5 @@ public class DelegatedVaultsClient {
     public Map<String, Object> untagVaultComplete(String vaultId, UntagVaultRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("DELETE", "/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction);
-    }
-
-    /** Delegated signing step 1 for Unquarantine: returns the challenge to sign out-of-band. */
-    public UserActionChallenge unquarantineInit(String vaultId, String quarantineId, UnquarantineRequest body) {
-        return httpClient.createUserActionChallenge("DELETE", "/vaults/" + vaultId + "/quarantines/" + quarantineId, body);
-    }
-
-    /** Delegated signing step 2 for Unquarantine: submits the signed challenge and issues the request. */
-    public UnquarantineResponse unquarantineComplete(String vaultId, String quarantineId, UnquarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
-        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("DELETE", "/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), body, UnquarantineResponse.class, userAction);
     }
 }

@@ -5,16 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record VaultBalanceEntry(
+public record VaultLock(
     @JsonProperty("id") String id,
-    @JsonProperty("kind") String kind,
+    @JsonProperty("vaultId") String vaultId,
     @JsonProperty("network") String network,
     @JsonProperty("tid") String tid,
     @JsonProperty("amount") String amount,
+    @JsonProperty("owner") String owner,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("transferId") String transferId,
+    @JsonProperty("externalId") String externalId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("quarantineId") String quarantineId,
+    @JsonProperty("reason") String reason,
+    @JsonProperty("dateCreated") String dateCreated,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("lockId") String lockId
+    @JsonProperty("dateDeleted") String dateDeleted
 ) {}

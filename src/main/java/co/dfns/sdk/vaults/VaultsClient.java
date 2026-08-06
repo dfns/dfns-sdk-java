@@ -28,9 +28,29 @@ public class VaultsClient {
         return httpClient.post("/vaults/" + vaultId + "/addresses", java.util.Map.of(), body, VaultAddress.class, true);
     }
 
+    /** List Vault Locks */
+    public PaginatedList<VaultLock> listVaultLocks(String vaultId, ListVaultLocksQuery query) {
+        return httpClient.get("/vaults/" + vaultId + "/locks", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultLock>>() {});
+    }
+
+    /** Create Vault Lock */
+    public VaultLock createVaultLock(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, true);
+    }
+
     /** Create Vault Transfer */
     public TransferRequest createVaultTransfer(String vaultId, CreateVaultTransferRequest body) {
         return httpClient.post("/vaults/" + vaultId + "/transfers", java.util.Map.of(), body, TransferRequest.class, true);
+    }
+
+    /** Get Vault Lock */
+    public VaultLock getVaultLock(String vaultId, String lockId) {
+        return httpClient.get("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
+    }
+
+    /** Delete Vault Lock */
+    public VaultLock deleteVaultLock(String vaultId, String lockId) {
+        return httpClient.delete("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), null, VaultLock.class, true);
     }
 
     /** Get Vault */
@@ -53,6 +73,11 @@ public class VaultsClient {
         return httpClient.get("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** Release Quarantine */
+    public ReleaseQuarantineResponse releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    }
+
     /** Tag Vault */
     @SuppressWarnings("unchecked")
     public Map<String, Object> tagVault(String vaultId, TagVaultRequest body) {
@@ -63,10 +88,5 @@ public class VaultsClient {
     @SuppressWarnings("unchecked")
     public Map<String, Object> untagVault(String vaultId, UntagVaultRequest body) {
         return httpClient.delete("/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
-    }
-
-    /** Unquarantine */
-    public UnquarantineResponse unquarantine(String vaultId, String quarantineId, UnquarantineRequest body) {
-        return httpClient.delete("/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), body, UnquarantineResponse.class, true);
     }
 }
