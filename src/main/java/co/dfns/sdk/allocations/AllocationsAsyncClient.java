@@ -4,6 +4,7 @@ import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class AllocationsAsyncClient {
@@ -36,5 +37,10 @@ public class AllocationsAsyncClient {
     /** Get Allocation */
     public CompletableFuture<Allocation> getAllocation(String allocationId) {
         return httpClient.getAsync("/allocations/" + allocationId, java.util.Map.of(), Allocation.class);
+    }
+
+    /** Get Allocations Info */
+    public CompletableFuture<GetAllocationsInfoResponse> getAllocationsInfo() {
+        return httpClient.getAsync("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
     }
 }

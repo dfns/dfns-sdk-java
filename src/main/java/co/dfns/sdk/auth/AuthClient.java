@@ -111,6 +111,16 @@ public class AuthClient {
         return httpClient.put("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Complete OIDC Login */
+    public Object completeOidcLogin(CompleteOidcLoginRequest body) {
+        return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    }
+
+    /** Initiate OIDC Login */
+    public InitiateOidcLoginResponse initiateOidcLogin(InitiateOidcLoginRequest body) {
+        return httpClient.post("/auth/login/oidc/init", java.util.Map.of(), body, InitiateOidcLoginResponse.class, false);
+    }
+
     /** Send Login Code */
     public SendLoginCodeResponse sendLoginCode(SendLoginCodeRequest body) {
         return httpClient.post("/auth/login/code", java.util.Map.of(), body, SendLoginCodeResponse.class, false);

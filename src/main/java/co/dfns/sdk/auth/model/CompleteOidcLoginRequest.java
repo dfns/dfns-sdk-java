@@ -1,9 +1,10 @@
-package co.dfns.sdk.vaults.model;
+package co.dfns.sdk.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CreateVaultAddressRequest(
-    @JsonProperty("network") Object network
+public record CompleteOidcLoginRequest(
+    @JsonProperty("code") String code,
+    @JsonProperty("state") String state
 ) {}

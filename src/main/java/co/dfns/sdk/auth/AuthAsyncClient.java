@@ -112,6 +112,16 @@ public class AuthAsyncClient {
         return httpClient.putAsync("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Complete OIDC Login */
+    public CompletableFuture<Object> completeOidcLogin(CompleteOidcLoginRequest body) {
+        return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    }
+
+    /** Initiate OIDC Login */
+    public CompletableFuture<InitiateOidcLoginResponse> initiateOidcLogin(InitiateOidcLoginRequest body) {
+        return httpClient.postAsync("/auth/login/oidc/init", java.util.Map.of(), body, InitiateOidcLoginResponse.class, false);
+    }
+
     /** Send Login Code */
     public CompletableFuture<SendLoginCodeResponse> sendLoginCode(SendLoginCodeRequest body) {
         return httpClient.postAsync("/auth/login/code", java.util.Map.of(), body, SendLoginCodeResponse.class, false);

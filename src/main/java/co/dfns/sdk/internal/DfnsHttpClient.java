@@ -309,7 +309,7 @@ public class DfnsHttpClient implements AutoCloseable {
 
     private HttpRequest buildRequest(String method, String path, Map<String, String> query, Object body, String userAction) {
         try {
-            String url = config.getBaseUrl() + path;
+            String url = buildTransportUrl(path);
             if (!query.isEmpty()) {
                 String qs = query.entrySet().stream()
                     .map(e -> java.net.URLEncoder.encode(e.getKey(), java.nio.charset.StandardCharsets.UTF_8) + "=" + java.net.URLEncoder.encode(e.getValue(), java.nio.charset.StandardCharsets.UTF_8))
@@ -380,7 +380,7 @@ public class DfnsHttpClient implements AutoCloseable {
 
     private HttpRequest buildMultipartRequest(String method, String path, Map<String, String> query, String dataJson, byte[] file, String userAction) {
         try {
-            String url = config.getBaseUrl() + path;
+            String url = buildTransportUrl(path);
             if (!query.isEmpty()) {
                 String qs = query.entrySet().stream()
                     .map(e -> java.net.URLEncoder.encode(e.getKey(), java.nio.charset.StandardCharsets.UTF_8) + "=" + java.net.URLEncoder.encode(e.getValue(), java.nio.charset.StandardCharsets.UTF_8))
@@ -414,6 +414,12 @@ public class DfnsHttpClient implements AutoCloseable {
         } catch (Exception e) {
             throw new DfnsException("Failed to build multipart request: " + e.getMessage(), e);
         }
+    }
+
+    private String buildTransportUrl(String path) {
+        if (path == null || !path.startsWith("/") || path.startsWith("//"))
+            throw new DfnsException("Request path must be root-relative", 0, null, null, null, null);
+        return config.getBaseUrl() + path;
     }
 
     private static String sha256Hex(byte[] bytes) {

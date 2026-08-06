@@ -29,9 +29,29 @@ public class VaultsAsyncClient {
         return httpClient.postAsync("/vaults/" + vaultId + "/addresses", java.util.Map.of(), body, VaultAddress.class, true);
     }
 
+    /** List Vault Locks */
+    public CompletableFuture<PaginatedList<VaultLock>> listVaultLocks(String vaultId, ListVaultLocksQuery query) {
+        return httpClient.getAsync("/vaults/" + vaultId + "/locks", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultLock>>() {});
+    }
+
+    /** Create Vault Lock */
+    public CompletableFuture<VaultLock> createVaultLock(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.postAsync("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, true);
+    }
+
     /** Create Vault Transfer */
     public CompletableFuture<TransferRequest> createVaultTransfer(String vaultId, CreateVaultTransferRequest body) {
         return httpClient.postAsync("/vaults/" + vaultId + "/transfers", java.util.Map.of(), body, TransferRequest.class, true);
+    }
+
+    /** Get Vault Lock */
+    public CompletableFuture<VaultLock> getVaultLock(String vaultId, String lockId) {
+        return httpClient.getAsync("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
+    }
+
+    /** Delete Vault Lock */
+    public CompletableFuture<VaultLock> deleteVaultLock(String vaultId, String lockId) {
+        return httpClient.deleteAsync("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), null, VaultLock.class, true);
     }
 
     /** Get Vault */
@@ -54,6 +74,11 @@ public class VaultsAsyncClient {
         return httpClient.getAsync("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** Release Quarantine */
+    public CompletableFuture<ReleaseQuarantineResponse> releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.postAsync("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    }
+
     /** Tag Vault */
     @SuppressWarnings("unchecked")
     public CompletableFuture<Map<String, Object>> tagVault(String vaultId, TagVaultRequest body) {
@@ -64,10 +89,5 @@ public class VaultsAsyncClient {
     @SuppressWarnings("unchecked")
     public CompletableFuture<Map<String, Object>> untagVault(String vaultId, UntagVaultRequest body) {
         return httpClient.deleteAsync("/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
-    }
-
-    /** Unquarantine */
-    public CompletableFuture<UnquarantineResponse> unquarantine(String vaultId, String quarantineId, UnquarantineRequest body) {
-        return httpClient.deleteAsync("/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), body, UnquarantineResponse.class, true);
     }
 }
