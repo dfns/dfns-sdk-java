@@ -74,8 +74,8 @@ public class VaultsClient {
     }
 
     /** Release Quarantine */
-    public ReleaseQuarantineResponse releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
-        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    public VaultReleaseQuarantineRequest releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, true);
     }
 
     /** Tag Vault */

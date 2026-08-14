@@ -11,5 +11,5 @@ public record GetAddressWatchBlockchainEventsResponse(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("nextPageToken") String nextPageToken,
     @JsonProperty("addressWatchId") String addressWatchId,
-    @JsonProperty("network") Network network
+    @JsonProperty("network") AddressWatchNetwork network
 ) {}

@@ -118,9 +118,9 @@ public class DelegatedVaultsAsyncClient {
     }
 
     /** Delegated signing step 2 for Release Quarantine: submits the signed challenge and issues the request. */
-    public CompletableFuture<ReleaseQuarantineResponse> releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<VaultReleaseQuarantineRequest> releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, userAction));
     }
 
     /** Delegated signing step 1 for Tag Vault: returns the challenge to sign out-of-band. */

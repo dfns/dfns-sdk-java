@@ -8,7 +8,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AddressWatch(
     @JsonProperty("id") String id,
-    @JsonProperty("network") Network network,
+    @JsonProperty("network") AddressWatchNetwork network,
     @JsonProperty("address") String address,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("name") String name,
