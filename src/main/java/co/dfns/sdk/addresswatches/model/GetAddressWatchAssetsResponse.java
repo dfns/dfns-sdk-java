@@ -9,7 +9,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GetAddressWatchAssetsResponse(
     @JsonProperty("addressWatchId") String addressWatchId,
-    @JsonProperty("network") Network network,
+    @JsonProperty("network") AddressWatchNetwork network,
     @JsonProperty("assets") List<Object> assets,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("netWorth") Map<String, Object> netWorth
