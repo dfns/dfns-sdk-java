@@ -130,6 +130,7 @@ A `DfnsDelegatedAsyncClient` with `CompletableFuture` return types is also avail
 
 ## Available Domains
 
+- `client.addressWatches` — AddressWatchesClient
 - `client.agreements` — AgreementsClient
 - `client.allocations` — AllocationsClient
 - `client.auth` — AuthClient
@@ -137,12 +138,14 @@ A `DfnsDelegatedAsyncClient` with `CompletableFuture` return types is also avail
 - `client.feeSponsors` — FeeSponsorsClient
 - `client.keys` — KeysClient
 - `client.networks` — NetworksClient
+- `client.payins` — PayinsClient
 - `client.payouts` — PayoutsClient
 - `client.permissions` — PermissionsClient
 - `client.policies` — PoliciesClient
 - `client.signers` — SignersClient
 - `client.staking` — StakingClient
 - `client.swaps` — SwapsClient
+- `client.vaults` — VaultsClient
 - `client.wallets` — WalletsClient
 - `client.webhooks` — WebhooksClient
 

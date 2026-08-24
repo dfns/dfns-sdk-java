@@ -34,8 +34,8 @@ public class VaultsClient {
     }
 
     /** Create Vault Lock */
-    public VaultLock createVaultLock(String vaultId, CreateVaultLockRequest body) {
-        return httpClient.post("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, true);
+    public VaultLockRequest createVaultLock(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLockRequest.class, true);
     }
 
     /** Create Vault Transfer */
@@ -74,8 +74,8 @@ public class VaultsClient {
     }
 
     /** Release Quarantine */
-    public ReleaseQuarantineResponse releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
-        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    public VaultReleaseQuarantineRequest releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, true);
     }
 
     /** Tag Vault */

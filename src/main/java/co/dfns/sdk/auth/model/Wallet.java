@@ -24,5 +24,7 @@ public record Wallet(
     @JsonProperty("externalId") String externalId,
     @JsonProperty("tags") List<String> tags,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("validatorId") String validatorId
+    @JsonProperty("validatorId") String validatorId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("vaultId") String vaultId
 ) {}

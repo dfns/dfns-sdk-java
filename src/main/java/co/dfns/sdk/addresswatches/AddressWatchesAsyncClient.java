@@ -29,6 +29,11 @@ public class AddressWatchesAsyncClient {
         return httpClient.getAsync("/address-watches/" + addressWatchId, java.util.Map.of(), AddressWatch.class);
     }
 
+    /** Delete Address Watch */
+    public CompletableFuture<AddressWatch> deleteAddressWatch(String addressWatchId) {
+        return httpClient.deleteAsync("/address-watches/" + addressWatchId, java.util.Map.of(), null, AddressWatch.class, true);
+    }
+
     /** Get Address Watch Assets */
     public CompletableFuture<GetAddressWatchAssetsResponse> getAddressWatchAssets(String addressWatchId, GetAddressWatchAssetsQuery query) {
         return httpClient.getAsync("/address-watches/" + addressWatchId + "/assets", query.toMap(), GetAddressWatchAssetsResponse.class);

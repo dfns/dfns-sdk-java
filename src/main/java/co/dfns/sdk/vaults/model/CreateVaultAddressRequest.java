@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateVaultAddressRequest(
-    @JsonProperty("network") Object network
+    @JsonProperty("network") String network
 ) {}
