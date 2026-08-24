@@ -36,6 +36,17 @@ public class DelegatedAddressWatchesClient {
         return httpClient.get("/address-watches/" + addressWatchId, java.util.Map.of(), AddressWatch.class);
     }
 
+    /** Delegated signing step 1 for Delete Address Watch: returns the challenge to sign out-of-band. */
+    public UserActionChallenge deleteAddressWatchInit(String addressWatchId) {
+        return httpClient.createUserActionChallenge("DELETE", "/address-watches/" + addressWatchId, null);
+    }
+
+    /** Delegated signing step 2 for Delete Address Watch: submits the signed challenge and issues the request. */
+    public AddressWatch deleteAddressWatchComplete(String addressWatchId, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("DELETE", "/address-watches/" + addressWatchId, java.util.Map.of(), null, AddressWatch.class, userAction);
+    }
+
     /** Get Address Watch Assets */
     public GetAddressWatchAssetsResponse getAddressWatchAssets(String addressWatchId, GetAddressWatchAssetsQuery query) {
         return httpClient.get("/address-watches/" + addressWatchId + "/assets", query.toMap(), GetAddressWatchAssetsResponse.class);

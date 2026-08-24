@@ -35,8 +35,8 @@ public class VaultsAsyncClient {
     }
 
     /** Create Vault Lock */
-    public CompletableFuture<VaultLock> createVaultLock(String vaultId, CreateVaultLockRequest body) {
-        return httpClient.postAsync("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, true);
+    public CompletableFuture<VaultLockRequest> createVaultLock(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.postAsync("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLockRequest.class, true);
     }
 
     /** Create Vault Transfer */
@@ -75,8 +75,8 @@ public class VaultsAsyncClient {
     }
 
     /** Release Quarantine */
-    public CompletableFuture<ReleaseQuarantineResponse> releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
-        return httpClient.postAsync("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, true);
+    public CompletableFuture<VaultReleaseQuarantineRequest> releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
+        return httpClient.postAsync("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, true);
     }
 
     /** Tag Vault */

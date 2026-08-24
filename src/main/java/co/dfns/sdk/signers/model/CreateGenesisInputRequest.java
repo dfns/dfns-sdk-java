@@ -9,6 +9,7 @@ import java.util.Map;
 public record CreateGenesisInputRequest(
     @JsonProperty("kind") String kind,
     @JsonProperty("numProvisioners") long numProvisioners,
+    @JsonProperty("numOperational") long numOperational,
     @JsonProperty("numSecp256k1") long numSecp256k1,
     @JsonProperty("numEd25519") long numEd25519,
     @JsonProperty("hsmGenesisSerial") String hsmGenesisSerial,

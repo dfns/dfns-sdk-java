@@ -53,9 +53,9 @@ public class DelegatedVaultsClient {
     }
 
     /** Delegated signing step 2 for Create Vault Lock: submits the signed challenge and issues the request. */
-    public VaultLock createVaultLockComplete(String vaultId, CreateVaultLockRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+    public VaultLockRequest createVaultLockComplete(String vaultId, CreateVaultLockRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, userAction);
+        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLockRequest.class, userAction);
     }
 
     /** Delegated signing step 1 for Create Vault Transfer: returns the challenge to sign out-of-band. */
@@ -117,9 +117,9 @@ public class DelegatedVaultsClient {
     }
 
     /** Delegated signing step 2 for Release Quarantine: submits the signed challenge and issues the request. */
-    public ReleaseQuarantineResponse releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+    public VaultReleaseQuarantineRequest releaseQuarantineComplete(String vaultId, String quarantineId, ReleaseQuarantineRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, ReleaseQuarantineResponse.class, userAction);
+        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, userAction);
     }
 
     /** Delegated signing step 1 for Tag Vault: returns the challenge to sign out-of-band. */

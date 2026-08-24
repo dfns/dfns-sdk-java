@@ -8,7 +8,7 @@ import java.util.Map;
 public record AddressWatchBlockchainEvent(
     @JsonProperty("id") String id,
     @JsonProperty("addressWatchId") String addressWatchId,
-    @JsonProperty("network") Network network,
+    @JsonProperty("network") AddressWatchNetwork network,
     @JsonProperty("name") String name,
     @JsonProperty("blockNumber") double blockNumber,
     @JsonProperty("txHash") String txHash,
