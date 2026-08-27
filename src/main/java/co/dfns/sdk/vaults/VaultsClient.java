@@ -34,23 +34,13 @@ public class VaultsClient {
     }
 
     /** Create Vault Lock */
-    public VaultLockRequest createVaultLock(String vaultId, CreateVaultLockRequest body) {
-        return httpClient.post("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLockRequest.class, true);
+    public VaultLock createVaultLock(String vaultId, CreateVaultLockRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/locks", java.util.Map.of(), body, VaultLock.class, true);
     }
 
     /** Create Vault Transfer */
     public TransferRequest createVaultTransfer(String vaultId, CreateVaultTransferRequest body) {
         return httpClient.post("/vaults/" + vaultId + "/transfers", java.util.Map.of(), body, TransferRequest.class, true);
-    }
-
-    /** Get Vault Lock */
-    public VaultLock getVaultLock(String vaultId, String lockId) {
-        return httpClient.get("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
-    }
-
-    /** Delete Vault Lock */
-    public VaultLock deleteVaultLock(String vaultId, String lockId) {
-        return httpClient.delete("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), null, VaultLock.class, true);
     }
 
     /** Get Vault */
@@ -61,6 +51,11 @@ public class VaultsClient {
     /** Update Vault */
     public Vault updateVault(String vaultId, UpdateVaultRequest body) {
         return httpClient.put("/vaults/" + vaultId, java.util.Map.of(), body, Vault.class, true);
+    }
+
+    /** Get Vault Lock */
+    public VaultLock getVaultLock(String vaultId, String lockId) {
+        return httpClient.get("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
     }
 
     /** List Vault Assets */
@@ -76,6 +71,11 @@ public class VaultsClient {
     /** Release Quarantine */
     public VaultReleaseQuarantineRequest releaseQuarantine(String vaultId, String quarantineId, ReleaseQuarantineRequest body) {
         return httpClient.post("/vaults/" + vaultId + "/quarantines/" + quarantineId + "/release", java.util.Map.of(), body, VaultReleaseQuarantineRequest.class, true);
+    }
+
+    /** Release Vault Lock */
+    public VaultLock releaseVaultLock(String vaultId, String lockId) {
+        return httpClient.post("/vaults/" + vaultId + "/locks/" + lockId + "/release", java.util.Map.of(), null, VaultLock.class, true);
     }
 
     /** Tag Vault */
