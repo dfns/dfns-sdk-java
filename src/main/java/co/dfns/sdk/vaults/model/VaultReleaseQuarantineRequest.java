@@ -13,7 +13,7 @@ public record VaultReleaseQuarantineRequest(
     @JsonProperty("network") String network,
     @JsonProperty("transactionHash") String transactionHash,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("kytResult") Map<String, Object> kytResult,
+    @JsonProperty("kytResult") Object kytResult,
     @JsonProperty("requester") Map<String, Object> requester,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("reason") String reason,
