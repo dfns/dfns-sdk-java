@@ -2,9 +2,9 @@ package co.dfns.sdk.wallets;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.wallets.model.*;
-import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 import co.dfns.sdk.auth.UserActionChallenge;
 import co.dfns.sdk.auth.CredentialAssertion;
 
@@ -46,6 +46,32 @@ public class DelegatedWalletsClient {
     public TransactionRequest activateWalletComplete(String walletId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("POST", "/wallets/" + walletId + "/activate", java.util.Map.of(), body, TransactionRequest.class, userAction);
+    }
+
+    /** List Bulk Wallet Jobs */
+    public PaginatedList<BulkWalletCreationJob> listBulkWalletJobs(ListBulkWalletJobsQuery query) {
+        return httpClient.get("/wallets/bulk-create", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<BulkWalletCreationJob>>() {});
+    }
+
+    /** Delegated signing step 1 for Bulk Create Wallets: returns the challenge to sign out-of-band. */
+    public UserActionChallenge bulkCreateWalletsInit(BulkCreateWalletsRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/wallets/bulk-create", body);
+    }
+
+    /** Delegated signing step 2 for Bulk Create Wallets: submits the signed challenge and issues the request. */
+    public BulkWalletCreationJobHandle bulkCreateWalletsComplete(BulkCreateWalletsRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/wallets/bulk-create", java.util.Map.of(), body, BulkWalletCreationJobHandle.class, userAction);
+    }
+
+    /** Get Bulk Wallet Job */
+    public BulkWalletCreationJob getBulkWalletJob(String jobId) {
+        return httpClient.get("/wallets/bulk-create/" + jobId, java.util.Map.of(), BulkWalletCreationJob.class);
+    }
+
+    /** List Bulk Wallet Job Wallets */
+    public PaginatedList<Wallet> listBulkWalletJobWallets(String jobId, ListBulkWalletJobWalletsQuery query) {
+        return httpClient.get("/wallets/bulk-create/" + jobId + "/wallets", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<Wallet>>() {});
     }
 
     /** List Transactions */

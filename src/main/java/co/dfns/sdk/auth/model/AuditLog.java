@@ -12,5 +12,9 @@ public record AuditLog(
     @JsonProperty("userId") Object userId,
     @JsonProperty("username") Object username,
     @JsonProperty("datePerformed") String datePerformed,
+    @JsonProperty("dateSigned") String dateSigned,
+    @JsonProperty("dateResolved") String dateResolved,
+    @JsonProperty("responseStatus") Object responseStatus,
+    @JsonProperty("responseError") Object responseError,
     @JsonProperty("firstFactorCredential") Map<String, Object> firstFactorCredential
 ) {}

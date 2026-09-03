@@ -21,6 +21,11 @@ public class PayinsClient {
         return httpClient.post("/payins", java.util.Map.of(), body, Object.class, true);
     }
 
+    /** Request Payin Quote */
+    public RequestPayinQuoteResponse requestPayinQuote(Object body) {
+        return httpClient.post("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    }
+
     /** Get Payin Recipient */
     public GetPayinRecipientResponse getPayinRecipient(GetPayinRecipientQuery query) {
         return httpClient.get("/payins/recipients", query.toMap(), GetPayinRecipientResponse.class);
@@ -36,8 +41,23 @@ public class PayinsClient {
         return httpClient.get("/payins/" + payinId, java.util.Map.of(), Object.class);
     }
 
+    /** List Payin Accounts */
+    public ListPayinAccountsResponse listPayinAccounts(ListPayinAccountsQuery query) {
+        return httpClient.get("/payins/accounts", query.toMap(), ListPayinAccountsResponse.class);
+    }
+
     /** List Payin Balances */
     public ListPayinBalancesResponse listPayinBalances(ListPayinBalancesQuery query) {
         return httpClient.get("/payins/balances", query.toMap(), ListPayinBalancesResponse.class);
+    }
+
+    /** List Payin Options */
+    public ListPayinOptionsResponse listPayinOptions(ListPayinOptionsQuery query) {
+        return httpClient.get("/payins/options", query.toMap(), ListPayinOptionsResponse.class);
+    }
+
+    /** Register Payin Account Asset */
+    public RegisterPayinAccountAssetResponse registerPayinAccountAsset(Object body) {
+        return httpClient.post("/payins/accounts/assets", java.util.Map.of(), body, RegisterPayinAccountAssetResponse.class, true);
     }
 }

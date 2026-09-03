@@ -30,6 +30,11 @@ public class DelegatedPayinsAsyncClient {
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/payins", java.util.Map.of(), body, Object.class, userAction));
     }
 
+    /** Request Payin Quote */
+    public CompletableFuture<RequestPayinQuoteResponse> requestPayinQuote(Object body) {
+        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    }
+
     /** Get Payin Recipient */
     public CompletableFuture<GetPayinRecipientResponse> getPayinRecipient(GetPayinRecipientQuery query) {
         return httpClient.getAsync("/payins/recipients", query.toMap(), GetPayinRecipientResponse.class);
@@ -51,8 +56,29 @@ public class DelegatedPayinsAsyncClient {
         return httpClient.getAsync("/payins/" + payinId, java.util.Map.of(), Object.class);
     }
 
+    /** List Payin Accounts */
+    public CompletableFuture<ListPayinAccountsResponse> listPayinAccounts(ListPayinAccountsQuery query) {
+        return httpClient.getAsync("/payins/accounts", query.toMap(), ListPayinAccountsResponse.class);
+    }
+
     /** List Payin Balances */
     public CompletableFuture<ListPayinBalancesResponse> listPayinBalances(ListPayinBalancesQuery query) {
         return httpClient.getAsync("/payins/balances", query.toMap(), ListPayinBalancesResponse.class);
+    }
+
+    /** List Payin Options */
+    public CompletableFuture<ListPayinOptionsResponse> listPayinOptions(ListPayinOptionsQuery query) {
+        return httpClient.getAsync("/payins/options", query.toMap(), ListPayinOptionsResponse.class);
+    }
+
+    /** Delegated signing step 1 for Register Payin Account Asset: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> registerPayinAccountAssetInit(Object body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/payins/accounts/assets", body);
+    }
+
+    /** Delegated signing step 2 for Register Payin Account Asset: submits the signed challenge and issues the request. */
+    public CompletableFuture<RegisterPayinAccountAssetResponse> registerPayinAccountAssetComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/payins/accounts/assets", java.util.Map.of(), body, RegisterPayinAccountAssetResponse.class, userAction));
     }
 }
