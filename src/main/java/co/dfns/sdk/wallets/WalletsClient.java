@@ -2,9 +2,9 @@ package co.dfns.sdk.wallets;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.wallets.model.*;
-import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
+import java.util.Map;
 
 public class WalletsClient {
     private final DfnsHttpClient httpClient;
@@ -26,6 +26,26 @@ public class WalletsClient {
     /** Activate Wallet */
     public TransactionRequest activateWallet(String walletId, Object body) {
         return httpClient.post("/wallets/" + walletId + "/activate", java.util.Map.of(), body, TransactionRequest.class, true);
+    }
+
+    /** List Bulk Wallet Jobs */
+    public PaginatedList<BulkWalletCreationJob> listBulkWalletJobs(ListBulkWalletJobsQuery query) {
+        return httpClient.get("/wallets/bulk-create", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<BulkWalletCreationJob>>() {});
+    }
+
+    /** Bulk Create Wallets */
+    public BulkWalletCreationJobHandle bulkCreateWallets(BulkCreateWalletsRequest body) {
+        return httpClient.post("/wallets/bulk-create", java.util.Map.of(), body, BulkWalletCreationJobHandle.class, true);
+    }
+
+    /** Get Bulk Wallet Job */
+    public BulkWalletCreationJob getBulkWalletJob(String jobId) {
+        return httpClient.get("/wallets/bulk-create/" + jobId, java.util.Map.of(), BulkWalletCreationJob.class);
+    }
+
+    /** List Bulk Wallet Job Wallets */
+    public PaginatedList<Wallet> listBulkWalletJobWallets(String jobId, ListBulkWalletJobWalletsQuery query) {
+        return httpClient.get("/wallets/bulk-create/" + jobId + "/wallets", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<Wallet>>() {});
     }
 
     /** List Transactions */

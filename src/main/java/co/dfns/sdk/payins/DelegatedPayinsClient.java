@@ -29,6 +29,11 @@ public class DelegatedPayinsClient {
         return httpClient.executeWithUserAction("POST", "/payins", java.util.Map.of(), body, Object.class, userAction);
     }
 
+    /** Request Payin Quote */
+    public RequestPayinQuoteResponse requestPayinQuote(Object body) {
+        return httpClient.post("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    }
+
     /** Get Payin Recipient */
     public GetPayinRecipientResponse getPayinRecipient(GetPayinRecipientQuery query) {
         return httpClient.get("/payins/recipients", query.toMap(), GetPayinRecipientResponse.class);
@@ -50,8 +55,29 @@ public class DelegatedPayinsClient {
         return httpClient.get("/payins/" + payinId, java.util.Map.of(), Object.class);
     }
 
+    /** List Payin Accounts */
+    public ListPayinAccountsResponse listPayinAccounts(ListPayinAccountsQuery query) {
+        return httpClient.get("/payins/accounts", query.toMap(), ListPayinAccountsResponse.class);
+    }
+
     /** List Payin Balances */
     public ListPayinBalancesResponse listPayinBalances(ListPayinBalancesQuery query) {
         return httpClient.get("/payins/balances", query.toMap(), ListPayinBalancesResponse.class);
+    }
+
+    /** List Payin Options */
+    public ListPayinOptionsResponse listPayinOptions(ListPayinOptionsQuery query) {
+        return httpClient.get("/payins/options", query.toMap(), ListPayinOptionsResponse.class);
+    }
+
+    /** Delegated signing step 1 for Register Payin Account Asset: returns the challenge to sign out-of-band. */
+    public UserActionChallenge registerPayinAccountAssetInit(Object body) {
+        return httpClient.createUserActionChallenge("POST", "/payins/accounts/assets", body);
+    }
+
+    /** Delegated signing step 2 for Register Payin Account Asset: submits the signed challenge and issues the request. */
+    public RegisterPayinAccountAssetResponse registerPayinAccountAssetComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/payins/accounts/assets", java.util.Map.of(), body, RegisterPayinAccountAssetResponse.class, userAction);
     }
 }

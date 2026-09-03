@@ -22,6 +22,11 @@ public class PayinsAsyncClient {
         return httpClient.postAsync("/payins", java.util.Map.of(), body, Object.class, true);
     }
 
+    /** Request Payin Quote */
+    public CompletableFuture<RequestPayinQuoteResponse> requestPayinQuote(Object body) {
+        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    }
+
     /** Get Payin Recipient */
     public CompletableFuture<GetPayinRecipientResponse> getPayinRecipient(GetPayinRecipientQuery query) {
         return httpClient.getAsync("/payins/recipients", query.toMap(), GetPayinRecipientResponse.class);
@@ -37,8 +42,23 @@ public class PayinsAsyncClient {
         return httpClient.getAsync("/payins/" + payinId, java.util.Map.of(), Object.class);
     }
 
+    /** List Payin Accounts */
+    public CompletableFuture<ListPayinAccountsResponse> listPayinAccounts(ListPayinAccountsQuery query) {
+        return httpClient.getAsync("/payins/accounts", query.toMap(), ListPayinAccountsResponse.class);
+    }
+
     /** List Payin Balances */
     public CompletableFuture<ListPayinBalancesResponse> listPayinBalances(ListPayinBalancesQuery query) {
         return httpClient.getAsync("/payins/balances", query.toMap(), ListPayinBalancesResponse.class);
+    }
+
+    /** List Payin Options */
+    public CompletableFuture<ListPayinOptionsResponse> listPayinOptions(ListPayinOptionsQuery query) {
+        return httpClient.getAsync("/payins/options", query.toMap(), ListPayinOptionsResponse.class);
+    }
+
+    /** Register Payin Account Asset */
+    public CompletableFuture<RegisterPayinAccountAssetResponse> registerPayinAccountAsset(Object body) {
+        return httpClient.postAsync("/payins/accounts/assets", java.util.Map.of(), body, RegisterPayinAccountAssetResponse.class, true);
     }
 }
