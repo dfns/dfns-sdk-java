@@ -146,4 +146,15 @@ public class DelegatedVaultsAsyncClient {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
     }
+
+    /** Delegated signing step 1 for Replace Vault Lock: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> replaceVaultLockInit(String vaultId, String lockId, ReplaceVaultLockRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/vaults/" + vaultId + "/locks/" + lockId + "/replace", body);
+    }
+
+    /** Delegated signing step 2 for Replace Vault Lock: submits the signed challenge and issues the request. */
+    public CompletableFuture<VaultLock> replaceVaultLockComplete(String vaultId, String lockId, ReplaceVaultLockRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/vaults/" + vaultId + "/locks/" + lockId + "/replace", java.util.Map.of(), body, VaultLock.class, userAction));
+    }
 }
