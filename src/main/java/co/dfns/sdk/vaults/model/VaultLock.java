@@ -16,6 +16,10 @@ public record VaultLock(
     @JsonProperty("externalId") String externalId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("reason") String reason,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("replacesLockId") String replacesLockId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("replacedByLockId") String replacedByLockId,
     @JsonProperty("dateCreated") String dateCreated,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("dateDeleted") String dateDeleted

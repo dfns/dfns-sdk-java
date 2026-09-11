@@ -89,4 +89,9 @@ public class VaultsClient {
     public Map<String, Object> untagVault(String vaultId, UntagVaultRequest body) {
         return httpClient.delete("/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
+
+    /** Replace Vault Lock */
+    public VaultLock replaceVaultLock(String vaultId, String lockId, ReplaceVaultLockRequest body) {
+        return httpClient.post("/vaults/" + vaultId + "/locks/" + lockId + "/replace", java.util.Map.of(), body, VaultLock.class, true);
+    }
 }
