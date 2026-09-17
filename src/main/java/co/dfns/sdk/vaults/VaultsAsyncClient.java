@@ -91,6 +91,11 @@ public class VaultsAsyncClient {
         return httpClient.deleteAsync("/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 
+    /** Transfer Vault Lock */
+    public CompletableFuture<TransferRequest> transferVaultLock(String vaultId, String lockId, TransferVaultLockRequest body) {
+        return httpClient.postAsync("/vaults/" + vaultId + "/locks/" + lockId + "/transfer", java.util.Map.of(), body, TransferRequest.class, true);
+    }
+
     /** Replace Vault Lock */
     public CompletableFuture<VaultLock> replaceVaultLock(String vaultId, String lockId, ReplaceVaultLockRequest body) {
         return httpClient.postAsync("/vaults/" + vaultId + "/locks/" + lockId + "/replace", java.util.Map.of(), body, VaultLock.class, true);

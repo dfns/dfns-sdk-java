@@ -10,6 +10,7 @@ public enum Network {
     AptosTestnet("AptosTestnet"),
     ArbitrumOne("ArbitrumOne"),
     ArbitrumSepolia("ArbitrumSepolia"),
+    Arc("Arc"),
     ArcTestnet("ArcTestnet"),
     Areum("Areum"),
     AvalancheC("AvalancheC"),

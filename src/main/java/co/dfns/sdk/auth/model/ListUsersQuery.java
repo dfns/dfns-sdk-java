@@ -6,7 +6,7 @@ import java.util.Map;
 public class ListUsersQuery {
     private Long limit;
     private String paginationToken;
-    private String kind;
+    private Object kind;
 
     public ListUsersQuery limit(Long limit) {
         this.limit = limit;
@@ -18,7 +18,7 @@ public class ListUsersQuery {
         return this;
     }
 
-    public ListUsersQuery kind(String kind) {
+    public ListUsersQuery kind(Object kind) {
         this.kind = kind;
         return this;
     }
