@@ -146,6 +146,17 @@ public class DelegatedVaultsClient {
         return httpClient.executeWithUserAction("DELETE", "/vaults/" + vaultId + "/tags", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction);
     }
 
+    /** Delegated signing step 1 for Transfer Vault Lock: returns the challenge to sign out-of-band. */
+    public UserActionChallenge transferVaultLockInit(String vaultId, String lockId, TransferVaultLockRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/vaults/" + vaultId + "/locks/" + lockId + "/transfer", body);
+    }
+
+    /** Delegated signing step 2 for Transfer Vault Lock: submits the signed challenge and issues the request. */
+    public TransferRequest transferVaultLockComplete(String vaultId, String lockId, TransferVaultLockRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/vaults/" + vaultId + "/locks/" + lockId + "/transfer", java.util.Map.of(), body, TransferRequest.class, userAction);
+    }
+
     /** Delegated signing step 1 for Replace Vault Lock: returns the challenge to sign out-of-band. */
     public UserActionChallenge replaceVaultLockInit(String vaultId, String lockId, ReplaceVaultLockRequest body) {
         return httpClient.createUserActionChallenge("POST", "/vaults/" + vaultId + "/locks/" + lockId + "/replace", body);

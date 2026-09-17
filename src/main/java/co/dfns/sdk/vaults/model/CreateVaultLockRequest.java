@@ -12,5 +12,7 @@ public record CreateVaultLockRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("externalId") String externalId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("reason") String reason
+    @JsonProperty("reason") String reason,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("beneficiary") String beneficiary
 ) {}

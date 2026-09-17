@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum AddressWatchNetwork {
     ArbitrumOne("ArbitrumOne"),
     ArbitrumSepolia("ArbitrumSepolia"),
+    Arc("Arc"),
     ArcTestnet("ArcTestnet"),
     Areum("Areum"),
     AvalancheC("AvalancheC"),

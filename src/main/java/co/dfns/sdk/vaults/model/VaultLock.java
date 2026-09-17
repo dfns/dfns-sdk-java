@@ -17,6 +17,12 @@ public record VaultLock(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("reason") String reason,
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("beneficiary") String beneficiary,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("transferId") String transferId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("transferAmount") String transferAmount,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("replacesLockId") String replacesLockId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("replacedByLockId") String replacedByLockId,
