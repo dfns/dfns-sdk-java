@@ -115,8 +115,14 @@ public class DelegatedWalletsAsyncClient {
 
     /** Proxy a request to the Canton Ledger API */
     @SuppressWarnings("unchecked")
-    public CompletableFuture<Map<String, Object>> proxyARequestToTheCantonLedgerApi(String walletId, ProxyARequestToTheCantonLedgerApiRequest body) {
+    public CompletableFuture<Map<String, Object>> cantonLedgerApiProxy(String walletId, CantonLedgerApiProxyRequest body) {
         return httpClient.postAsync("/wallets/" + walletId + "/canton/ledger-api", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, false);
+    }
+
+    /** @deprecated Use {@link #cantonLedgerApiProxy} instead. */
+    @Deprecated
+    public CompletableFuture<Map<String, Object>> proxyARequestToTheCantonLedgerApi(String walletId, CantonLedgerApiProxyRequest body) {
+        return cantonLedgerApiProxy(walletId, body);
     }
 
     /** Delegated signing step 1 for Speed Up Transaction: returns the challenge to sign out-of-band. */

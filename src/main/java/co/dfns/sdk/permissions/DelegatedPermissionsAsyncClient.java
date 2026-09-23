@@ -26,8 +26,14 @@ public class DelegatedPermissionsAsyncClient {
     }
 
     /** List Permission Assignments */
-    public CompletableFuture<ListPermissionAssignmentsResponse> listPermissionAssignments(String permissionId, ListPermissionAssignmentsQuery query) {
-        return httpClient.getAsync("/permissions/" + permissionId + "/assignments", query.toMap(), ListPermissionAssignmentsResponse.class);
+    public CompletableFuture<ListAssignmentsResponse> listAssignments(String permissionId, ListAssignmentsQuery query) {
+        return httpClient.getAsync("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
+    }
+
+    /** @deprecated Use {@link #listAssignments} instead. */
+    @Deprecated
+    public CompletableFuture<ListAssignmentsResponse> listPermissionAssignments(String permissionId, ListAssignmentsQuery query) {
+        return listAssignments(permissionId, query);
     }
 
     /** Delegated signing step 1 for Assign Permission: returns the challenge to sign out-of-band. */

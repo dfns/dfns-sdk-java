@@ -35,8 +35,14 @@ public class DelegatedPayoutsClient {
     }
 
     /** Get Payout Status */
-    public Object getPayoutStatus(String payoutId) {
+    public Object getPayout(String payoutId) {
         return httpClient.get("/payouts/" + payoutId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayout} instead. */
+    @Deprecated
+    public Object getPayoutStatus(String payoutId) {
+        return getPayout(payoutId);
     }
 
     /** Delegated signing step 1 for Create Payout Action: returns the challenge to sign out-of-band. */
