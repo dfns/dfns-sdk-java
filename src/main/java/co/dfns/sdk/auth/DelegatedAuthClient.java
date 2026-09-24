@@ -140,8 +140,14 @@ public class DelegatedAuthClient {
     }
 
     /** Complete User Login */
-    public Object completeUserLogin(CompleteUserLoginRequest body) {
+    public Object login(LoginRequest body) {
         return httpClient.post("/auth/login", java.util.Map.of(), body, Object.class, false);
+    }
+
+    /** @deprecated Use {@link #login} instead. */
+    @Deprecated
+    public Object completeUserLogin(LoginRequest body) {
+        return login(body);
     }
 
     /** Logout */
@@ -150,13 +156,25 @@ public class DelegatedAuthClient {
     }
 
     /** Complete OIDC Login */
-    public Object completeOidcLogin(CompleteOidcLoginRequest body) {
+    public Object oidcLogin(OidcLoginRequest body) {
         return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
     }
 
+    /** @deprecated Use {@link #oidcLogin} instead. */
+    @Deprecated
+    public Object completeOidcLogin(OidcLoginRequest body) {
+        return oidcLogin(body);
+    }
+
     /** Initiate OIDC Login */
-    public InitiateOidcLoginResponse initiateOidcLogin(InitiateOidcLoginRequest body) {
-        return httpClient.post("/auth/login/oidc/init", java.util.Map.of(), body, InitiateOidcLoginResponse.class, false);
+    public OidcLoginInitResponse oidcLoginInit(OidcLoginInitRequest body) {
+        return httpClient.post("/auth/login/oidc/init", java.util.Map.of(), body, OidcLoginInitResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #oidcLoginInit} instead. */
+    @Deprecated
+    public OidcLoginInitResponse initiateOidcLogin(OidcLoginInitRequest body) {
+        return oidcLoginInit(body);
     }
 
     /** Send Login Code */
@@ -170,13 +188,25 @@ public class DelegatedAuthClient {
     }
 
     /** Complete SSO Login */
-    public CompleteSsoLoginResponse completeSsoLogin(CompleteSsoLoginRequest body) {
-        return httpClient.post("/auth/login/sso", java.util.Map.of(), body, CompleteSsoLoginResponse.class, false);
+    public SsoLoginResponse ssoLogin(SsoLoginRequest body) {
+        return httpClient.post("/auth/login/sso", java.util.Map.of(), body, SsoLoginResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #ssoLogin} instead. */
+    @Deprecated
+    public SsoLoginResponse completeSsoLogin(SsoLoginRequest body) {
+        return ssoLogin(body);
     }
 
     /** Initiate SSO Login */
-    public InitiateSsoLoginResponse initiateSsoLogin(InitiateSsoLoginRequest body) {
-        return httpClient.post("/auth/login/sso/init", java.util.Map.of(), body, InitiateSsoLoginResponse.class, false);
+    public SsoLoginInitResponse ssoLoginInit(SsoLoginInitRequest body) {
+        return httpClient.post("/auth/login/sso/init", java.util.Map.of(), body, SsoLoginInitResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #ssoLoginInit} instead. */
+    @Deprecated
+    public SsoLoginInitResponse initiateSsoLogin(SsoLoginInitRequest body) {
+        return ssoLoginInit(body);
     }
 
     /** Exchange Access Token */
@@ -261,8 +291,14 @@ public class DelegatedAuthClient {
     }
 
     /** Recover User */
-    public RecoverUserResponse recoverUser(RecoverUserRequest body) {
-        return httpClient.post("/auth/recover/user", java.util.Map.of(), body, RecoverUserResponse.class, false);
+    public RecoverResponse recover(RecoverRequest body) {
+        return httpClient.post("/auth/recover/user", java.util.Map.of(), body, RecoverResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #recover} instead. */
+    @Deprecated
+    public RecoverResponse recoverUser(RecoverRequest body) {
+        return recover(body);
     }
 
     /** Create Recovery Challenge */
@@ -271,8 +307,14 @@ public class DelegatedAuthClient {
     }
 
     /** Send Recovery Code Email */
-    public SendRecoveryCodeEmailResponse sendRecoveryCodeEmail(SendRecoveryCodeEmailRequest body) {
-        return httpClient.post("/auth/recover/user/code", java.util.Map.of(), body, SendRecoveryCodeEmailResponse.class, false);
+    public SendRecoveryCodeResponse sendRecoveryCode(SendRecoveryCodeRequest body) {
+        return httpClient.post("/auth/recover/user/code", java.util.Map.of(), body, SendRecoveryCodeResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #sendRecoveryCode} instead. */
+    @Deprecated
+    public SendRecoveryCodeResponse sendRecoveryCodeEmail(SendRecoveryCodeRequest body) {
+        return sendRecoveryCode(body);
     }
 
     /** Delegated signing step 1 for Create Delegated Registration Challenge: returns the challenge to sign out-of-band. */
@@ -297,13 +339,25 @@ public class DelegatedAuthClient {
     }
 
     /** Complete User Registration */
-    public CompleteUserRegistrationResponse completeUserRegistration(CompleteUserRegistrationRequest body) {
-        return httpClient.post("/auth/registration", java.util.Map.of(), body, CompleteUserRegistrationResponse.class, false);
+    public RegisterResponse register(RegisterRequest body) {
+        return httpClient.post("/auth/registration", java.util.Map.of(), body, RegisterResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #register} instead. */
+    @Deprecated
+    public RegisterResponse completeUserRegistration(RegisterRequest body) {
+        return register(body);
     }
 
     /** Complete End User Registration with Wallets */
-    public CompleteEndUserRegistrationWithWalletsResponse completeEndUserRegistrationWithWallets(CompleteEndUserRegistrationWithWalletsRequest body) {
-        return httpClient.post("/auth/registration/enduser", java.util.Map.of(), body, CompleteEndUserRegistrationWithWalletsResponse.class, false);
+    public RegisterEndUserResponse registerEndUser(RegisterEndUserRequest body) {
+        return httpClient.post("/auth/registration/enduser", java.util.Map.of(), body, RegisterEndUserResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #registerEndUser} instead. */
+    @Deprecated
+    public RegisterEndUserResponse completeEndUserRegistrationWithWallets(RegisterEndUserRequest body) {
+        return registerEndUser(body);
     }
 
     /** Resend Registration Code */

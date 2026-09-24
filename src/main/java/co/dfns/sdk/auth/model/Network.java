@@ -34,7 +34,7 @@ public enum Network {
     Concordium("Concordium"),
     ConcordiumTestnet("ConcordiumTestnet"),
     Celo("Celo"),
-    CeloAlfajores("CeloAlfajores"),
+    CeloSepolia("CeloSepolia"),
     Codex("Codex"),
     CodexSepolia("CodexSepolia"),
     CosmosHub4("CosmosHub4"),

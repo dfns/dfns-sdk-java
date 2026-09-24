@@ -36,8 +36,14 @@ public class DelegatedPayoutsAsyncClient {
     }
 
     /** Get Payout Status */
-    public CompletableFuture<Object> getPayoutStatus(String payoutId) {
+    public CompletableFuture<Object> getPayout(String payoutId) {
         return httpClient.getAsync("/payouts/" + payoutId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayout} instead. */
+    @Deprecated
+    public CompletableFuture<Object> getPayoutStatus(String payoutId) {
+        return getPayout(payoutId);
     }
 
     /** Delegated signing step 1 for Create Payout Action: returns the challenge to sign out-of-band. */
