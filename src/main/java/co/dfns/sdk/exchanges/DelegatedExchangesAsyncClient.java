@@ -64,24 +64,24 @@ public class DelegatedExchangesAsyncClient {
     }
 
     /** Delegated signing step 1 for Create Exchange Deposit: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> createExchangeDepositInit(String exchangeId, String accountId, Object body) {
+    public CompletableFuture<UserActionChallenge> createDepositInit(String exchangeId, String accountId, Object body) {
         return httpClient.createUserActionChallengeAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", body);
     }
 
     /** Delegated signing step 2 for Create Exchange Deposit: submits the signed challenge and issues the request. */
-    public CompletableFuture<CreateExchangeDepositResponse> createExchangeDepositComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<CreateDepositResponse> createDepositComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateExchangeDepositResponse.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateDepositResponse.class, userAction));
     }
 
     /** Delegated signing step 1 for Create Exchange Withdrawal: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> createExchangeWithdrawalInit(String exchangeId, String accountId, Object body) {
+    public CompletableFuture<UserActionChallenge> createWithdrawalInit(String exchangeId, String accountId, Object body) {
         return httpClient.createUserActionChallengeAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", body);
     }
 
     /** Delegated signing step 2 for Create Exchange Withdrawal: submits the signed challenge and issues the request. */
-    public CompletableFuture<CreateExchangeWithdrawalResponse> createExchangeWithdrawalComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<CreateWithdrawalResponse> createWithdrawalComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateExchangeWithdrawalResponse.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateWithdrawalResponse.class, userAction));
     }
 }
