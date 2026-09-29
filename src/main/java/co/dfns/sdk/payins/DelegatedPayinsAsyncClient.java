@@ -31,8 +31,14 @@ public class DelegatedPayinsAsyncClient {
     }
 
     /** Request Payin Quote */
-    public CompletableFuture<RequestPayinQuoteResponse> requestPayinQuote(Object body) {
-        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    public CompletableFuture<CreatePayinQuoteResponse> createPayinQuote(Object body) {
+        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, CreatePayinQuoteResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #createPayinQuote} instead. */
+    @Deprecated
+    public CompletableFuture<CreatePayinQuoteResponse> requestPayinQuote(Object body) {
+        return createPayinQuote(body);
     }
 
     /** Get Payin Recipient */
@@ -41,19 +47,25 @@ public class DelegatedPayinsAsyncClient {
     }
 
     /** Delegated signing step 1 for Register Payin Recipient: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> registerPayinRecipientInit(Object body) {
+    public CompletableFuture<UserActionChallenge> createPayinRecipientInit(Object body) {
         return httpClient.createUserActionChallengeAsync("POST", "/payins/recipients", body);
     }
 
     /** Delegated signing step 2 for Register Payin Recipient: submits the signed challenge and issues the request. */
-    public CompletableFuture<RegisterPayinRecipientResponse> registerPayinRecipientComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<CreatePayinRecipientResponse> createPayinRecipientComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/payins/recipients", java.util.Map.of(), body, RegisterPayinRecipientResponse.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/payins/recipients", java.util.Map.of(), body, CreatePayinRecipientResponse.class, userAction));
     }
 
     /** Get Payin Status */
-    public CompletableFuture<Object> getPayinStatus(String payinId) {
+    public CompletableFuture<Object> getPayin(String payinId) {
         return httpClient.getAsync("/payins/" + payinId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayin} instead. */
+    @Deprecated
+    public CompletableFuture<Object> getPayinStatus(String payinId) {
+        return getPayin(payinId);
     }
 
     /** List Payin Accounts */

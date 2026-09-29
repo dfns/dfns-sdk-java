@@ -49,12 +49,24 @@ public class ExchangesClient {
     }
 
     /** Create Exchange Deposit */
-    public CreateExchangeDepositResponse createExchangeDeposit(String exchangeId, String accountId, Object body) {
-        return httpClient.post("/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateExchangeDepositResponse.class, true);
+    public CreateDepositResponse createDeposit(String exchangeId, String accountId, Object body) {
+        return httpClient.post("/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateDepositResponse.class, true);
+    }
+
+    /** @deprecated Use {@link #createDeposit} instead. */
+    @Deprecated
+    public CreateDepositResponse createExchangeDeposit(String exchangeId, String accountId, Object body) {
+        return createDeposit(exchangeId, accountId, body);
     }
 
     /** Create Exchange Withdrawal */
-    public CreateExchangeWithdrawalResponse createExchangeWithdrawal(String exchangeId, String accountId, Object body) {
-        return httpClient.post("/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateExchangeWithdrawalResponse.class, true);
+    public CreateWithdrawalResponse createWithdrawal(String exchangeId, String accountId, Object body) {
+        return httpClient.post("/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateWithdrawalResponse.class, true);
+    }
+
+    /** @deprecated Use {@link #createWithdrawal} instead. */
+    @Deprecated
+    public CreateWithdrawalResponse createExchangeWithdrawal(String exchangeId, String accountId, Object body) {
+        return createWithdrawal(exchangeId, accountId, body);
     }
 }

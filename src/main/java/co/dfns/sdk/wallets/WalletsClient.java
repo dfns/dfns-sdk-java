@@ -70,8 +70,14 @@ public class WalletsClient {
 
     /** Proxy a request to the Canton Ledger API */
     @SuppressWarnings("unchecked")
-    public Map<String, Object> proxyARequestToTheCantonLedgerApi(String walletId, ProxyARequestToTheCantonLedgerApiRequest body) {
+    public Map<String, Object> cantonLedgerApiProxy(String walletId, CantonLedgerApiProxyRequest body) {
         return httpClient.post("/wallets/" + walletId + "/canton/ledger-api", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, false);
+    }
+
+    /** @deprecated Use {@link #cantonLedgerApiProxy} instead. */
+    @Deprecated
+    public Map<String, Object> proxyARequestToTheCantonLedgerApi(String walletId, CantonLedgerApiProxyRequest body) {
+        return cantonLedgerApiProxy(walletId, body);
     }
 
     /** Speed Up Transaction */

@@ -103,8 +103,14 @@ public class AuthAsyncClient {
     }
 
     /** Complete User Login */
-    public CompletableFuture<Object> completeUserLogin(CompleteUserLoginRequest body) {
+    public CompletableFuture<Object> login(LoginRequest body) {
         return httpClient.postAsync("/auth/login", java.util.Map.of(), body, Object.class, false);
+    }
+
+    /** @deprecated Use {@link #login} instead. */
+    @Deprecated
+    public CompletableFuture<Object> completeUserLogin(LoginRequest body) {
+        return login(body);
     }
 
     /** Logout */
@@ -113,13 +119,25 @@ public class AuthAsyncClient {
     }
 
     /** Complete OIDC Login */
-    public CompletableFuture<Object> completeOidcLogin(CompleteOidcLoginRequest body) {
+    public CompletableFuture<Object> oidcLogin(OidcLoginRequest body) {
         return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
     }
 
+    /** @deprecated Use {@link #oidcLogin} instead. */
+    @Deprecated
+    public CompletableFuture<Object> completeOidcLogin(OidcLoginRequest body) {
+        return oidcLogin(body);
+    }
+
     /** Initiate OIDC Login */
-    public CompletableFuture<InitiateOidcLoginResponse> initiateOidcLogin(InitiateOidcLoginRequest body) {
-        return httpClient.postAsync("/auth/login/oidc/init", java.util.Map.of(), body, InitiateOidcLoginResponse.class, false);
+    public CompletableFuture<OidcLoginInitResponse> oidcLoginInit(OidcLoginInitRequest body) {
+        return httpClient.postAsync("/auth/login/oidc/init", java.util.Map.of(), body, OidcLoginInitResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #oidcLoginInit} instead. */
+    @Deprecated
+    public CompletableFuture<OidcLoginInitResponse> initiateOidcLogin(OidcLoginInitRequest body) {
+        return oidcLoginInit(body);
     }
 
     /** Send Login Code */
@@ -133,13 +151,25 @@ public class AuthAsyncClient {
     }
 
     /** Complete SSO Login */
-    public CompletableFuture<CompleteSsoLoginResponse> completeSsoLogin(CompleteSsoLoginRequest body) {
-        return httpClient.postAsync("/auth/login/sso", java.util.Map.of(), body, CompleteSsoLoginResponse.class, false);
+    public CompletableFuture<SsoLoginResponse> ssoLogin(SsoLoginRequest body) {
+        return httpClient.postAsync("/auth/login/sso", java.util.Map.of(), body, SsoLoginResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #ssoLogin} instead. */
+    @Deprecated
+    public CompletableFuture<SsoLoginResponse> completeSsoLogin(SsoLoginRequest body) {
+        return ssoLogin(body);
     }
 
     /** Initiate SSO Login */
-    public CompletableFuture<InitiateSsoLoginResponse> initiateSsoLogin(InitiateSsoLoginRequest body) {
-        return httpClient.postAsync("/auth/login/sso/init", java.util.Map.of(), body, InitiateSsoLoginResponse.class, false);
+    public CompletableFuture<SsoLoginInitResponse> ssoLoginInit(SsoLoginInitRequest body) {
+        return httpClient.postAsync("/auth/login/sso/init", java.util.Map.of(), body, SsoLoginInitResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #ssoLoginInit} instead. */
+    @Deprecated
+    public CompletableFuture<SsoLoginInitResponse> initiateSsoLogin(SsoLoginInitRequest body) {
+        return ssoLoginInit(body);
     }
 
     /** Exchange Access Token */
@@ -188,8 +218,14 @@ public class AuthAsyncClient {
     }
 
     /** Recover User */
-    public CompletableFuture<RecoverUserResponse> recoverUser(RecoverUserRequest body) {
-        return httpClient.postAsync("/auth/recover/user", java.util.Map.of(), body, RecoverUserResponse.class, false);
+    public CompletableFuture<RecoverResponse> recover(RecoverRequest body) {
+        return httpClient.postAsync("/auth/recover/user", java.util.Map.of(), body, RecoverResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #recover} instead. */
+    @Deprecated
+    public CompletableFuture<RecoverResponse> recoverUser(RecoverRequest body) {
+        return recover(body);
     }
 
     /** Create Recovery Challenge */
@@ -198,8 +234,14 @@ public class AuthAsyncClient {
     }
 
     /** Send Recovery Code Email */
-    public CompletableFuture<SendRecoveryCodeEmailResponse> sendRecoveryCodeEmail(SendRecoveryCodeEmailRequest body) {
-        return httpClient.postAsync("/auth/recover/user/code", java.util.Map.of(), body, SendRecoveryCodeEmailResponse.class, false);
+    public CompletableFuture<SendRecoveryCodeResponse> sendRecoveryCode(SendRecoveryCodeRequest body) {
+        return httpClient.postAsync("/auth/recover/user/code", java.util.Map.of(), body, SendRecoveryCodeResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #sendRecoveryCode} instead. */
+    @Deprecated
+    public CompletableFuture<SendRecoveryCodeResponse> sendRecoveryCodeEmail(SendRecoveryCodeRequest body) {
+        return sendRecoveryCode(body);
     }
 
     /** Create Delegated Registration Challenge */
@@ -218,13 +260,25 @@ public class AuthAsyncClient {
     }
 
     /** Complete User Registration */
-    public CompletableFuture<CompleteUserRegistrationResponse> completeUserRegistration(CompleteUserRegistrationRequest body) {
-        return httpClient.postAsync("/auth/registration", java.util.Map.of(), body, CompleteUserRegistrationResponse.class, false);
+    public CompletableFuture<RegisterResponse> register(RegisterRequest body) {
+        return httpClient.postAsync("/auth/registration", java.util.Map.of(), body, RegisterResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #register} instead. */
+    @Deprecated
+    public CompletableFuture<RegisterResponse> completeUserRegistration(RegisterRequest body) {
+        return register(body);
     }
 
     /** Complete End User Registration with Wallets */
-    public CompletableFuture<CompleteEndUserRegistrationWithWalletsResponse> completeEndUserRegistrationWithWallets(CompleteEndUserRegistrationWithWalletsRequest body) {
-        return httpClient.postAsync("/auth/registration/enduser", java.util.Map.of(), body, CompleteEndUserRegistrationWithWalletsResponse.class, false);
+    public CompletableFuture<RegisterEndUserResponse> registerEndUser(RegisterEndUserRequest body) {
+        return httpClient.postAsync("/auth/registration/enduser", java.util.Map.of(), body, RegisterEndUserResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #registerEndUser} instead. */
+    @Deprecated
+    public CompletableFuture<RegisterEndUserResponse> completeEndUserRegistrationWithWallets(RegisterEndUserRequest body) {
+        return registerEndUser(body);
     }
 
     /** Resend Registration Code */

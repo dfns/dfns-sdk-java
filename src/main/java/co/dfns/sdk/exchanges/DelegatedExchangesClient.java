@@ -63,24 +63,24 @@ public class DelegatedExchangesClient {
     }
 
     /** Delegated signing step 1 for Create Exchange Deposit: returns the challenge to sign out-of-band. */
-    public UserActionChallenge createExchangeDepositInit(String exchangeId, String accountId, Object body) {
+    public UserActionChallenge createDepositInit(String exchangeId, String accountId, Object body) {
         return httpClient.createUserActionChallenge("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", body);
     }
 
     /** Delegated signing step 2 for Create Exchange Deposit: submits the signed challenge and issues the request. */
-    public CreateExchangeDepositResponse createExchangeDepositComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CreateDepositResponse createDepositComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateExchangeDepositResponse.class, userAction);
+        return httpClient.executeWithUserAction("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/deposits", java.util.Map.of(), body, CreateDepositResponse.class, userAction);
     }
 
     /** Delegated signing step 1 for Create Exchange Withdrawal: returns the challenge to sign out-of-band. */
-    public UserActionChallenge createExchangeWithdrawalInit(String exchangeId, String accountId, Object body) {
+    public UserActionChallenge createWithdrawalInit(String exchangeId, String accountId, Object body) {
         return httpClient.createUserActionChallenge("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", body);
     }
 
     /** Delegated signing step 2 for Create Exchange Withdrawal: submits the signed challenge and issues the request. */
-    public CreateExchangeWithdrawalResponse createExchangeWithdrawalComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CreateWithdrawalResponse createWithdrawalComplete(String exchangeId, String accountId, Object body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateExchangeWithdrawalResponse.class, userAction);
+        return httpClient.executeWithUserAction("POST", "/exchanges/" + exchangeId + "/accounts/" + accountId + "/withdrawals", java.util.Map.of(), body, CreateWithdrawalResponse.class, userAction);
     }
 }

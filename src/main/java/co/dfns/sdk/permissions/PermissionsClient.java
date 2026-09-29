@@ -17,8 +17,14 @@ public class PermissionsClient {
     }
 
     /** List Permission Assignments */
-    public ListPermissionAssignmentsResponse listPermissionAssignments(String permissionId, ListPermissionAssignmentsQuery query) {
-        return httpClient.get("/permissions/" + permissionId + "/assignments", query.toMap(), ListPermissionAssignmentsResponse.class);
+    public ListAssignmentsResponse listAssignments(String permissionId, ListAssignmentsQuery query) {
+        return httpClient.get("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
+    }
+
+    /** @deprecated Use {@link #listAssignments} instead. */
+    @Deprecated
+    public ListAssignmentsResponse listPermissionAssignments(String permissionId, ListAssignmentsQuery query) {
+        return listAssignments(permissionId, query);
     }
 
     /** Assign Permission */

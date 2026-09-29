@@ -27,8 +27,14 @@ public class PayoutsClient {
     }
 
     /** Get Payout Status */
-    public Object getPayoutStatus(String payoutId) {
+    public Object getPayout(String payoutId) {
         return httpClient.get("/payouts/" + payoutId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayout} instead. */
+    @Deprecated
+    public Object getPayoutStatus(String payoutId) {
+        return getPayout(payoutId);
     }
 
     /** Create Payout Action */

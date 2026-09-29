@@ -30,8 +30,14 @@ public class DelegatedPayinsClient {
     }
 
     /** Request Payin Quote */
-    public RequestPayinQuoteResponse requestPayinQuote(Object body) {
-        return httpClient.post("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    public CreatePayinQuoteResponse createPayinQuote(Object body) {
+        return httpClient.post("/payins/quote", java.util.Map.of(), body, CreatePayinQuoteResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #createPayinQuote} instead. */
+    @Deprecated
+    public CreatePayinQuoteResponse requestPayinQuote(Object body) {
+        return createPayinQuote(body);
     }
 
     /** Get Payin Recipient */
@@ -40,19 +46,25 @@ public class DelegatedPayinsClient {
     }
 
     /** Delegated signing step 1 for Register Payin Recipient: returns the challenge to sign out-of-band. */
-    public UserActionChallenge registerPayinRecipientInit(Object body) {
+    public UserActionChallenge createPayinRecipientInit(Object body) {
         return httpClient.createUserActionChallenge("POST", "/payins/recipients", body);
     }
 
     /** Delegated signing step 2 for Register Payin Recipient: submits the signed challenge and issues the request. */
-    public RegisterPayinRecipientResponse registerPayinRecipientComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
+    public CreatePayinRecipientResponse createPayinRecipientComplete(Object body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("POST", "/payins/recipients", java.util.Map.of(), body, RegisterPayinRecipientResponse.class, userAction);
+        return httpClient.executeWithUserAction("POST", "/payins/recipients", java.util.Map.of(), body, CreatePayinRecipientResponse.class, userAction);
     }
 
     /** Get Payin Status */
-    public Object getPayinStatus(String payinId) {
+    public Object getPayin(String payinId) {
         return httpClient.get("/payins/" + payinId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayin} instead. */
+    @Deprecated
+    public Object getPayinStatus(String payinId) {
+        return getPayin(payinId);
     }
 
     /** List Payin Accounts */

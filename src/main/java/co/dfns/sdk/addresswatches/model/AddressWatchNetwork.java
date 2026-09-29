@@ -20,7 +20,7 @@ public enum AddressWatchNetwork {
     Bsc("Bsc"),
     BscTestnet("BscTestnet"),
     Celo("Celo"),
-    CeloAlfajores("CeloAlfajores"),
+    CeloSepolia("CeloSepolia"),
     Codex("Codex"),
     CodexSepolia("CodexSepolia"),
     Ethereum("Ethereum"),

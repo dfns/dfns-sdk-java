@@ -91,6 +91,11 @@ public class DelegatedVaultsAsyncClient {
         return httpClient.getAsync("/vaults/" + vaultId + "/locks/" + lockId, java.util.Map.of(), VaultLock.class);
     }
 
+    /** Get Vault Quarantine */
+    public CompletableFuture<VaultQuarantine> getVaultQuarantine(String vaultId, String quarantineId) {
+        return httpClient.getAsync("/vaults/" + vaultId + "/quarantines/" + quarantineId, java.util.Map.of(), VaultQuarantine.class);
+    }
+
     /** List Vault Assets */
     public CompletableFuture<ListVaultAssetsResponse> listVaultAssets(String vaultId, ListVaultAssetsQuery query) {
         return httpClient.getAsync("/vaults/" + vaultId + "/assets", query.toMap(), ListVaultAssetsResponse.class);
@@ -99,6 +104,11 @@ public class DelegatedVaultsAsyncClient {
     /** List Vault Balances */
     public CompletableFuture<PaginatedList<VaultBalanceEntry>> listVaultBalances(String vaultId, ListVaultBalancesQuery query) {
         return httpClient.getAsync("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
+    }
+
+    /** List Vault Quarantines */
+    public CompletableFuture<PaginatedList<VaultQuarantine>> listVaultQuarantines(String vaultId, ListVaultQuarantinesQuery query) {
+        return httpClient.getAsync("/vaults/" + vaultId + "/quarantines", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultQuarantine>>() {});
     }
 
     /** Delegated signing step 1 for Release Quarantine: returns the challenge to sign out-of-band. */

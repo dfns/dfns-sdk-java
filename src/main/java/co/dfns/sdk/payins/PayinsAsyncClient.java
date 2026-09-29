@@ -23,8 +23,14 @@ public class PayinsAsyncClient {
     }
 
     /** Request Payin Quote */
-    public CompletableFuture<RequestPayinQuoteResponse> requestPayinQuote(Object body) {
-        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, RequestPayinQuoteResponse.class, false);
+    public CompletableFuture<CreatePayinQuoteResponse> createPayinQuote(Object body) {
+        return httpClient.postAsync("/payins/quote", java.util.Map.of(), body, CreatePayinQuoteResponse.class, false);
+    }
+
+    /** @deprecated Use {@link #createPayinQuote} instead. */
+    @Deprecated
+    public CompletableFuture<CreatePayinQuoteResponse> requestPayinQuote(Object body) {
+        return createPayinQuote(body);
     }
 
     /** Get Payin Recipient */
@@ -33,13 +39,25 @@ public class PayinsAsyncClient {
     }
 
     /** Register Payin Recipient */
-    public CompletableFuture<RegisterPayinRecipientResponse> registerPayinRecipient(Object body) {
-        return httpClient.postAsync("/payins/recipients", java.util.Map.of(), body, RegisterPayinRecipientResponse.class, true);
+    public CompletableFuture<CreatePayinRecipientResponse> createPayinRecipient(Object body) {
+        return httpClient.postAsync("/payins/recipients", java.util.Map.of(), body, CreatePayinRecipientResponse.class, true);
+    }
+
+    /** @deprecated Use {@link #createPayinRecipient} instead. */
+    @Deprecated
+    public CompletableFuture<CreatePayinRecipientResponse> registerPayinRecipient(Object body) {
+        return createPayinRecipient(body);
     }
 
     /** Get Payin Status */
-    public CompletableFuture<Object> getPayinStatus(String payinId) {
+    public CompletableFuture<Object> getPayin(String payinId) {
         return httpClient.getAsync("/payins/" + payinId, java.util.Map.of(), Object.class);
+    }
+
+    /** @deprecated Use {@link #getPayin} instead. */
+    @Deprecated
+    public CompletableFuture<Object> getPayinStatus(String payinId) {
+        return getPayin(payinId);
     }
 
     /** List Payin Accounts */
