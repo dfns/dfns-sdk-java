@@ -26,5 +26,7 @@ public record Wallet(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("validatorId") String validatorId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("networkInfo") Map<String, Object> networkInfo,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("vaultId") String vaultId
 ) {}

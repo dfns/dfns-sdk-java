@@ -2,15 +2,20 @@ package co.dfns.sdk.allocations;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
+import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 
 public class AllocationsClient {
     private final DfnsHttpClient httpClient;
 
     public AllocationsClient(DfnsHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    /** Request 0fns Allocation Quote */
+    public CreateAllocationQuoteResponse createAllocationQuote(CreateAllocationQuoteRequest body) {
+        return httpClient.post("/allocations/get-0fns-quote", java.util.Map.of(), body, CreateAllocationQuoteResponse.class, false);
     }
 
     /** List Allocations */
@@ -41,5 +46,10 @@ public class AllocationsClient {
     /** Get Allocations Info */
     public GetAllocationsInfoResponse getAllocationsInfo() {
         return httpClient.get("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
+    }
+
+    /** Cancel an unfilled 0fns order placement */
+    public Cancel0fnsOrderPlacementResponse cancel0fnsOrderPlacement(Cancel0fnsOrderPlacementRequest body) {
+        return httpClient.post("/allocations/cancel-0fns-order-placement", java.util.Map.of(), body, Cancel0fnsOrderPlacementResponse.class, true);
     }
 }

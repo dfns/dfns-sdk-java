@@ -2,9 +2,9 @@ package co.dfns.sdk.allocations;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
+import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 import co.dfns.sdk.auth.UserActionChallenge;
 import co.dfns.sdk.auth.CredentialAssertion;
 
@@ -13,6 +13,11 @@ public class DelegatedAllocationsClient {
 
     public DelegatedAllocationsClient(DfnsHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    /** Request 0fns Allocation Quote */
+    public CreateAllocationQuoteResponse createAllocationQuote(CreateAllocationQuoteRequest body) {
+        return httpClient.post("/allocations/get-0fns-quote", java.util.Map.of(), body, CreateAllocationQuoteResponse.class, false);
     }
 
     /** List Allocations */
@@ -55,5 +60,16 @@ public class DelegatedAllocationsClient {
     /** Get Allocations Info */
     public GetAllocationsInfoResponse getAllocationsInfo() {
         return httpClient.get("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
+    }
+
+    /** Delegated signing step 1 for Cancel an unfilled 0fns order placement: returns the challenge to sign out-of-band. */
+    public UserActionChallenge cancel0fnsOrderPlacementInit(Cancel0fnsOrderPlacementRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/allocations/cancel-0fns-order-placement", body);
+    }
+
+    /** Delegated signing step 2 for Cancel an unfilled 0fns order placement: submits the signed challenge and issues the request. */
+    public Cancel0fnsOrderPlacementResponse cancel0fnsOrderPlacementComplete(Cancel0fnsOrderPlacementRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/allocations/cancel-0fns-order-placement", java.util.Map.of(), body, Cancel0fnsOrderPlacementResponse.class, userAction);
     }
 }
