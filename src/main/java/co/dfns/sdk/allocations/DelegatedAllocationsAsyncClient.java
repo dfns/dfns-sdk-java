@@ -2,9 +2,9 @@ package co.dfns.sdk.allocations;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
+import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import co.dfns.sdk.auth.UserActionChallenge;
 import co.dfns.sdk.auth.CredentialAssertion;
@@ -14,6 +14,11 @@ public class DelegatedAllocationsAsyncClient {
 
     public DelegatedAllocationsAsyncClient(DfnsHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    /** Request 0fns Allocation Quote */
+    public CompletableFuture<CreateAllocationQuoteResponse> createAllocationQuote(CreateAllocationQuoteRequest body) {
+        return httpClient.postAsync("/allocations/get-0fns-quote", java.util.Map.of(), body, CreateAllocationQuoteResponse.class, false);
     }
 
     /** List Allocations */
@@ -56,5 +61,16 @@ public class DelegatedAllocationsAsyncClient {
     /** Get Allocations Info */
     public CompletableFuture<GetAllocationsInfoResponse> getAllocationsInfo() {
         return httpClient.getAsync("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
+    }
+
+    /** Delegated signing step 1 for Cancel an unfilled 0fns order placement: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> cancel0fnsOrderPlacementInit(Cancel0fnsOrderPlacementRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/allocations/cancel-0fns-order-placement", body);
+    }
+
+    /** Delegated signing step 2 for Cancel an unfilled 0fns order placement: submits the signed challenge and issues the request. */
+    public CompletableFuture<Cancel0fnsOrderPlacementResponse> cancel0fnsOrderPlacementComplete(Cancel0fnsOrderPlacementRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/allocations/cancel-0fns-order-placement", java.util.Map.of(), body, Cancel0fnsOrderPlacementResponse.class, userAction));
     }
 }

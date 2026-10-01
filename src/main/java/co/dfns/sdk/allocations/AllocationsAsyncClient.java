@@ -2,9 +2,9 @@ package co.dfns.sdk.allocations;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.allocations.model.*;
+import java.util.Map;
 import java.util.List;
 import co.dfns.sdk.PaginatedList;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class AllocationsAsyncClient {
@@ -12,6 +12,11 @@ public class AllocationsAsyncClient {
 
     public AllocationsAsyncClient(DfnsHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    /** Request 0fns Allocation Quote */
+    public CompletableFuture<CreateAllocationQuoteResponse> createAllocationQuote(CreateAllocationQuoteRequest body) {
+        return httpClient.postAsync("/allocations/get-0fns-quote", java.util.Map.of(), body, CreateAllocationQuoteResponse.class, false);
     }
 
     /** List Allocations */
@@ -42,5 +47,10 @@ public class AllocationsAsyncClient {
     /** Get Allocations Info */
     public CompletableFuture<GetAllocationsInfoResponse> getAllocationsInfo() {
         return httpClient.getAsync("/allocations/info", java.util.Map.of(), GetAllocationsInfoResponse.class);
+    }
+
+    /** Cancel an unfilled 0fns order placement */
+    public CompletableFuture<Cancel0fnsOrderPlacementResponse> cancel0fnsOrderPlacement(Cancel0fnsOrderPlacementRequest body) {
+        return httpClient.postAsync("/allocations/cancel-0fns-order-placement", java.util.Map.of(), body, Cancel0fnsOrderPlacementResponse.class, true);
     }
 }
