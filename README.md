@@ -7,26 +7,56 @@ Welcome, builders. This repo holds the Dfns Java SDK. Useful links:
 
 ## Installation
 
-Requires **Java 17+**. The SDK is built with Gradle and will be published to Maven Central
-under group `co.dfns`, artifact `dfns-sdk-java`:
+Requires **Java 17+**.
 
-**Gradle**
+Maven Central publishing is being finalized. Until it lands, install the SDK into your
+**local Maven repository** (`~/.m2`) from source, then depend on it with the normal
+coordinates (group `co.dfns`, artifact `dfns-sdk-java`, version `1.0.0`).
 
-```groovy
-implementation("co.dfns:dfns-sdk-java:$version")
+### 1. Build and install locally
+
+Clone this repository and publish it to your local Maven repository:
+
+```bash
+git clone https://github.com/dfns/dfns-sdk-java.git
+cd dfns-sdk-java
+./gradlew publishToMavenLocal
 ```
 
-**Maven**
+This installs `co.dfns:dfns-sdk-java:1.0.0` into `~/.m2/repository`. The bundled Gradle
+wrapper downloads its own Gradle, so no local Gradle install is needed. Re-run this command
+after pulling a newer version of the SDK.
+
+### 2. Depend on it from your project
+
+Point your build at the local Maven repository (`mavenLocal()`) and add the dependency.
+
+**Gradle** — in `build.gradle`:
+
+```groovy
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation("co.dfns:dfns-sdk-java:1.0.0")
+}
+```
+
+**Maven** — the local repository is on Maven's search path by default, so just add the
+dependency to `pom.xml`:
 
 ```xml
 <dependency>
   <groupId>co.dfns</groupId>
   <artifactId>dfns-sdk-java</artifactId>
-  <version>${version}</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-> Maven Central publishing is being finalized; until it lands, build the SDK from source.
+Transitive dependencies (Jackson, Bouncy Castle) are declared in the published POM and
+resolved automatically.
 
 ## Quick Start
 
