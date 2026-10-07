@@ -9,9 +9,14 @@ Welcome, builders. This repo holds the Dfns Java SDK. Useful links:
 
 Requires **Java 17+**.
 
-Maven Central publishing is being finalized. Until it lands, install the SDK into your
-**local Maven repository** (`~/.m2`) from source, then depend on it with the normal
-coordinates (group `co.dfns`, artifact `dfns-sdk-java`, version `1.0.0`).
+Maven Central publishing is being finalized. Until it lands, build the SDK from source using
+one of the two approaches below.
+
+## Option A: install to your local Maven repository
+
+Works for both Gradle and Maven. Build the SDK from source, install it into your
+**local Maven repository** (`~/.m2`), then depend on it with the normal coordinates
+(group `co.dfns`, artifact `dfns-sdk-java`, version `1.0.0`).
 
 ### 1. Build and install locally
 
@@ -57,6 +62,29 @@ dependency to `pom.xml`:
 
 Transitive dependencies (Jackson, Bouncy Castle) are declared in the published POM and
 resolved automatically.
+
+## Option B: reference the source directly (Gradle only)
+
+If you use Gradle, you can skip the publish step and build the SDK from a cloned copy as part
+of your own build, using a [composite build](https://docs.gradle.org/current/userguide/composite_builds.html).
+This needs no local Maven repository. It also works well in CI: add the SDK as a git submodule
+pinned to a commit, and your build resolves it reproducibly with no registry.
+
+Clone this repository into your project (for example as a git submodule), then reference it
+from your `settings.gradle`:
+
+```groovy
+includeBuild("third-party/dfns-sdk-java")
+```
+
+Depend on it without a version. Gradle builds the SDK from source and substitutes it for the
+dependency, resolving its transitive dependencies automatically:
+
+```groovy
+dependencies {
+    implementation("co.dfns:dfns-sdk-java")
+}
+```
 
 ## Quick Start
 
