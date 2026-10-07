@@ -7,26 +7,84 @@ Welcome, builders. This repo holds the Dfns Java SDK. Useful links:
 
 ## Installation
 
-Requires **Java 17+**. The SDK is built with Gradle and will be published to Maven Central
-under group `co.dfns`, artifact `dfns-sdk-java`:
+Requires **Java 17+**.
 
-**Gradle**
+Maven Central publishing is being finalized. Until it lands, build the SDK from source using
+one of the two approaches below.
 
-```groovy
-implementation("co.dfns:dfns-sdk-java:$version")
+## Option A: install to your local Maven repository
+
+Works for both Gradle and Maven. Build the SDK from source, install it into your
+**local Maven repository** (`~/.m2`), then depend on it with the normal coordinates
+(group `co.dfns`, artifact `dfns-sdk-java`, version `1.0.0`).
+
+### 1. Build and install locally
+
+Clone this repository and publish it to your local Maven repository:
+
+```bash
+git clone https://github.com/dfns/dfns-sdk-java.git
+cd dfns-sdk-java
+./gradlew publishToMavenLocal
 ```
 
-**Maven**
+This installs `co.dfns:dfns-sdk-java:1.0.0` into `~/.m2/repository`. The bundled Gradle
+wrapper downloads its own Gradle, so no local Gradle install is needed. Re-run this command
+after pulling a newer version of the SDK.
+
+### 2. Depend on it from your project
+
+Point your build at the local Maven repository (`mavenLocal()`) and add the dependency.
+
+**Gradle** — in `build.gradle`:
+
+```groovy
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation("co.dfns:dfns-sdk-java:1.0.0")
+}
+```
+
+**Maven** — the local repository is on Maven's search path by default, so just add the
+dependency to `pom.xml`:
 
 ```xml
 <dependency>
   <groupId>co.dfns</groupId>
   <artifactId>dfns-sdk-java</artifactId>
-  <version>${version}</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-> Maven Central publishing is being finalized; until it lands, build the SDK from source.
+Transitive dependencies (Jackson, Bouncy Castle) are declared in the published POM and
+resolved automatically.
+
+## Option B: reference the source directly (Gradle only)
+
+If you use Gradle, you can skip the publish step and build the SDK from a cloned copy as part
+of your own build, using a [composite build](https://docs.gradle.org/current/userguide/composite_builds.html).
+This needs no local Maven repository. It also works well in CI: add the SDK as a git submodule
+pinned to a commit, and your build resolves it reproducibly with no registry.
+
+Clone this repository into your project (for example as a git submodule), then reference it
+from your `settings.gradle`:
+
+```groovy
+includeBuild("third-party/dfns-sdk-java")
+```
+
+Depend on it without a version. Gradle builds the SDK from source and substitutes it for the
+dependency, resolving its transitive dependencies automatically:
+
+```groovy
+dependencies {
+    implementation("co.dfns:dfns-sdk-java")
+}
+```
 
 ## Quick Start
 

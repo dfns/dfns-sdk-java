@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 group   = 'co.dfns'
@@ -8,10 +9,22 @@ version = '1.0.0'
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
 }
 
 repositories {
     mavenCentral()
+}
+
+// Until the SDK is on Maven Central, consumers install it into their local Maven
+// repository (~/.m2) with `./gradlew publishToMavenLocal`. The published POM carries
+// the transitive dependencies, so the coordinates below resolve from both Gradle and Maven.
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 dependencies {
