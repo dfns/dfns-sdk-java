@@ -70,6 +70,11 @@ public class DelegatedPoliciesAsyncClient {
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/v2/policies", java.util.Map.of(), body, Policy.class, userAction));
     }
 
+    /** Get Sumsub Travel Rule public key */
+    public CompletableFuture<GetSumsubTravelRulePublicKeyResponse> getSumsubTravelRulePublicKey() {
+        return httpClient.getAsync("/v2/policies/travel-rule/sumsub/public-key", java.util.Map.of(), GetSumsubTravelRulePublicKeyResponse.class);
+    }
+
     /** Get Approval */
     public CompletableFuture<PolicyApproval> getApproval(String approvalId) {
         return httpClient.getAsync("/v2/policy-approvals/" + approvalId, java.util.Map.of(), PolicyApproval.class);

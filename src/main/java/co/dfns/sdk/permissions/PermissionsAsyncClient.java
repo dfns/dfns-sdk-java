@@ -17,6 +17,22 @@ public class PermissionsAsyncClient {
         return httpClient.putAsync("/permissions/" + permissionId + "/archive", java.util.Map.of(), body, Permission.class, true);
     }
 
+    /** Get Permission */
+    public CompletableFuture<Permission> getPermission(String permissionId) {
+        return httpClient.getAsync("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
+    }
+
+    /** Update Permission */
+    public CompletableFuture<Permission> updatePermission(String permissionId, UpdatePermissionRequest body) {
+        return httpClient.putAsync("/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, true);
+    }
+
+    /** Delete Permission */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deletePermission(String permissionId) {
+        return httpClient.deleteAsync("/permissions/" + permissionId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
     /** List Permission Assignments */
     public CompletableFuture<ListAssignmentsResponse> listAssignments(String permissionId, ListAssignmentsQuery query) {
         return httpClient.getAsync("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
@@ -46,15 +62,5 @@ public class PermissionsAsyncClient {
     /** Revoke Permission */
     public CompletableFuture<Void> revokePermission(String permissionId, String assignmentId, RevokePermissionQuery query) {
         return httpClient.deleteAsync("/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, true);
-    }
-
-    /** Get Permission */
-    public CompletableFuture<Permission> getPermission(String permissionId) {
-        return httpClient.getAsync("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
-    }
-
-    /** Update Permission */
-    public CompletableFuture<Permission> updatePermission(String permissionId, UpdatePermissionRequest body) {
-        return httpClient.putAsync("/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, true);
     }
 }

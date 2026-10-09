@@ -74,6 +74,11 @@ public class VaultsAsyncClient {
         return httpClient.getAsync("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** List Vault History */
+    public CompletableFuture<PaginatedList<VaultHistoryEvent>> listVaultHistory(String vaultId, ListVaultHistoryQuery query) {
+        return httpClient.getAsync("/vaults/" + vaultId + "/history", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultHistoryEvent>>() {});
+    }
+
     /** List Vault Quarantines */
     public CompletableFuture<PaginatedList<VaultQuarantine>> listVaultQuarantines(String vaultId, ListVaultQuarantinesQuery query) {
         return httpClient.getAsync("/vaults/" + vaultId + "/quarantines", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultQuarantine>>() {});

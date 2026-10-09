@@ -49,4 +49,9 @@ public class NetworksAsyncClient {
     public CompletableFuture<CantonValidator> createCantonValidator(String network, Object body) {
         return httpClient.postAsync("/networks/" + network + "/validators", java.util.Map.of(), body, CantonValidator.class, true);
     }
+
+    /** Reindex Transaction */
+    public CompletableFuture<ReindexTransactionResponse> reindexTransaction(String network, ReindexTransactionRequest body) {
+        return httpClient.postAsync("/networks/" + network + "/transactions/reindex", java.util.Map.of(), body, ReindexTransactionResponse.class, true);
+    }
 }

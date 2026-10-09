@@ -1,15 +1,17 @@
-package co.dfns.sdk.auth.model;
+package co.dfns.sdk.vaults.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record DelegatedLoginResponse(
-    @JsonProperty("token") String token,
+public record VaultHistoryIncomingTransfer(
+    @JsonProperty("txHash") String txHash,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("expiry") double expiry,
+    @JsonProperty("index") String index,
+    @JsonProperty("senders") List<String> senders,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("identity") Map<String, Object> identity
+    @JsonProperty("asset") Map<String, Object> asset
 ) {}

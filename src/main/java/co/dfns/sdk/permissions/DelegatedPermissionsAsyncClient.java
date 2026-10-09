@@ -25,6 +25,34 @@ public class DelegatedPermissionsAsyncClient {
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/permissions/" + permissionId + "/archive", java.util.Map.of(), body, Permission.class, userAction));
     }
 
+    /** Get Permission */
+    public CompletableFuture<Permission> getPermission(String permissionId) {
+        return httpClient.getAsync("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
+    }
+
+    /** Delegated signing step 1 for Update Permission: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> updatePermissionInit(String permissionId, UpdatePermissionRequest body) {
+        return httpClient.createUserActionChallengeAsync("PUT", "/permissions/" + permissionId, body);
+    }
+
+    /** Delegated signing step 2 for Update Permission: submits the signed challenge and issues the request. */
+    public CompletableFuture<Permission> updatePermissionComplete(String permissionId, UpdatePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Delete Permission: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> deletePermissionInit(String permissionId) {
+        return httpClient.createUserActionChallengeAsync("DELETE", "/permissions/" + permissionId, null);
+    }
+
+    /** Delegated signing step 2 for Delete Permission: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deletePermissionComplete(String permissionId, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/permissions/" + permissionId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
+    }
+
     /** List Permission Assignments */
     public CompletableFuture<ListAssignmentsResponse> listAssignments(String permissionId, ListAssignmentsQuery query) {
         return httpClient.getAsync("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
@@ -72,21 +100,5 @@ public class DelegatedPermissionsAsyncClient {
     public CompletableFuture<Void> revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionQuery query, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, userAction));
-    }
-
-    /** Get Permission */
-    public CompletableFuture<Permission> getPermission(String permissionId) {
-        return httpClient.getAsync("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
-    }
-
-    /** Delegated signing step 1 for Update Permission: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> updatePermissionInit(String permissionId, UpdatePermissionRequest body) {
-        return httpClient.createUserActionChallengeAsync("PUT", "/permissions/" + permissionId, body);
-    }
-
-    /** Delegated signing step 2 for Update Permission: submits the signed challenge and issues the request. */
-    public CompletableFuture<Permission> updatePermissionComplete(String permissionId, UpdatePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
-        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, userAction));
     }
 }
