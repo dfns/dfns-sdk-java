@@ -24,6 +24,34 @@ public class DelegatedPermissionsClient {
         return httpClient.executeWithUserAction("PUT", "/permissions/" + permissionId + "/archive", java.util.Map.of(), body, Permission.class, userAction);
     }
 
+    /** Get Permission */
+    public Permission getPermission(String permissionId) {
+        return httpClient.get("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
+    }
+
+    /** Delegated signing step 1 for Update Permission: returns the challenge to sign out-of-band. */
+    public UserActionChallenge updatePermissionInit(String permissionId, UpdatePermissionRequest body) {
+        return httpClient.createUserActionChallenge("PUT", "/permissions/" + permissionId, body);
+    }
+
+    /** Delegated signing step 2 for Update Permission: submits the signed challenge and issues the request. */
+    public Permission updatePermissionComplete(String permissionId, UpdatePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("PUT", "/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, userAction);
+    }
+
+    /** Delegated signing step 1 for Delete Permission: returns the challenge to sign out-of-band. */
+    public UserActionChallenge deletePermissionInit(String permissionId) {
+        return httpClient.createUserActionChallenge("DELETE", "/permissions/" + permissionId, null);
+    }
+
+    /** Delegated signing step 2 for Delete Permission: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deletePermissionComplete(String permissionId, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("DELETE", "/permissions/" + permissionId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction);
+    }
+
     /** List Permission Assignments */
     public ListAssignmentsResponse listAssignments(String permissionId, ListAssignmentsQuery query) {
         return httpClient.get("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
@@ -71,21 +99,5 @@ public class DelegatedPermissionsClient {
     public Void revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionQuery query, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, userAction);
-    }
-
-    /** Get Permission */
-    public Permission getPermission(String permissionId) {
-        return httpClient.get("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
-    }
-
-    /** Delegated signing step 1 for Update Permission: returns the challenge to sign out-of-band. */
-    public UserActionChallenge updatePermissionInit(String permissionId, UpdatePermissionRequest body) {
-        return httpClient.createUserActionChallenge("PUT", "/permissions/" + permissionId, body);
-    }
-
-    /** Delegated signing step 2 for Update Permission: submits the signed challenge and issues the request. */
-    public Permission updatePermissionComplete(String permissionId, UpdatePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
-        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("PUT", "/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, userAction);
     }
 }

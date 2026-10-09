@@ -34,6 +34,8 @@ public enum AddressWatchNetwork {
     FlowEvmTestnet("FlowEvmTestnet"),
     Ink("Ink"),
     InkSepolia("InkSepolia"),
+    Monad("Monad"),
+    MonadTestnet("MonadTestnet"),
     Optimism("Optimism"),
     OptimismSepolia("OptimismSepolia"),
     Plasma("Plasma"),

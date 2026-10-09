@@ -16,6 +16,22 @@ public class PermissionsClient {
         return httpClient.put("/permissions/" + permissionId + "/archive", java.util.Map.of(), body, Permission.class, true);
     }
 
+    /** Get Permission */
+    public Permission getPermission(String permissionId) {
+        return httpClient.get("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
+    }
+
+    /** Update Permission */
+    public Permission updatePermission(String permissionId, UpdatePermissionRequest body) {
+        return httpClient.put("/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, true);
+    }
+
+    /** Delete Permission */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deletePermission(String permissionId) {
+        return httpClient.delete("/permissions/" + permissionId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
     /** List Permission Assignments */
     public ListAssignmentsResponse listAssignments(String permissionId, ListAssignmentsQuery query) {
         return httpClient.get("/permissions/" + permissionId + "/assignments", query.toMap(), ListAssignmentsResponse.class);
@@ -45,15 +61,5 @@ public class PermissionsClient {
     /** Revoke Permission */
     public Void revokePermission(String permissionId, String assignmentId, RevokePermissionQuery query) {
         return httpClient.delete("/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, true);
-    }
-
-    /** Get Permission */
-    public Permission getPermission(String permissionId) {
-        return httpClient.get("/permissions/" + permissionId, java.util.Map.of(), Permission.class);
-    }
-
-    /** Update Permission */
-    public Permission updatePermission(String permissionId, UpdatePermissionRequest body) {
-        return httpClient.put("/permissions/" + permissionId, java.util.Map.of(), body, Permission.class, true);
     }
 }

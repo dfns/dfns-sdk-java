@@ -48,4 +48,9 @@ public class NetworksClient {
     public CantonValidator createCantonValidator(String network, Object body) {
         return httpClient.post("/networks/" + network + "/validators", java.util.Map.of(), body, CantonValidator.class, true);
     }
+
+    /** Reindex Transaction */
+    public ReindexTransactionResponse reindexTransaction(String network, ReindexTransactionRequest body) {
+        return httpClient.post("/networks/" + network + "/transactions/reindex", java.util.Map.of(), body, ReindexTransactionResponse.class, true);
+    }
 }

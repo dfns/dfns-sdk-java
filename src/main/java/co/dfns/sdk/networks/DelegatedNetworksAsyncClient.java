@@ -69,4 +69,15 @@ public class DelegatedNetworksAsyncClient {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/networks/" + network + "/validators", java.util.Map.of(), body, CantonValidator.class, userAction));
     }
+
+    /** Delegated signing step 1 for Reindex Transaction: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> reindexTransactionInit(String network, ReindexTransactionRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/networks/" + network + "/transactions/reindex", body);
+    }
+
+    /** Delegated signing step 2 for Reindex Transaction: submits the signed challenge and issues the request. */
+    public CompletableFuture<ReindexTransactionResponse> reindexTransactionComplete(String network, ReindexTransactionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/networks/" + network + "/transactions/reindex", java.util.Map.of(), body, ReindexTransactionResponse.class, userAction));
+    }
 }

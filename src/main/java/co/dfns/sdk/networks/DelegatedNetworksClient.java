@@ -68,4 +68,15 @@ public class DelegatedNetworksClient {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("POST", "/networks/" + network + "/validators", java.util.Map.of(), body, CantonValidator.class, userAction);
     }
+
+    /** Delegated signing step 1 for Reindex Transaction: returns the challenge to sign out-of-band. */
+    public UserActionChallenge reindexTransactionInit(String network, ReindexTransactionRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/networks/" + network + "/transactions/reindex", body);
+    }
+
+    /** Delegated signing step 2 for Reindex Transaction: submits the signed challenge and issues the request. */
+    public ReindexTransactionResponse reindexTransactionComplete(String network, ReindexTransactionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/networks/" + network + "/transactions/reindex", java.util.Map.of(), body, ReindexTransactionResponse.class, userAction);
+    }
 }

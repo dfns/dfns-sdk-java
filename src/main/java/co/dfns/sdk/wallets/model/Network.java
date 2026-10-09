@@ -63,6 +63,8 @@ public enum Network {
     KusamaAssetHub("KusamaAssetHub"),
     Litecoin("Litecoin"),
     LitecoinTestnet("LitecoinTestnet"),
+    Monad("Monad"),
+    MonadTestnet("MonadTestnet"),
     Movement("Movement"),
     MovementTestnet("MovementTestnet"),
     Near("Near"),

@@ -43,6 +43,11 @@ public class PoliciesClient {
         return httpClient.post("/v2/policies", java.util.Map.of(), body, Policy.class, true);
     }
 
+    /** Get Sumsub Travel Rule public key */
+    public GetSumsubTravelRulePublicKeyResponse getSumsubTravelRulePublicKey() {
+        return httpClient.get("/v2/policies/travel-rule/sumsub/public-key", java.util.Map.of(), GetSumsubTravelRulePublicKeyResponse.class);
+    }
+
     /** Get Approval */
     public PolicyApproval getApproval(String approvalId) {
         return httpClient.get("/v2/policy-approvals/" + approvalId, java.util.Map.of(), PolicyApproval.class);

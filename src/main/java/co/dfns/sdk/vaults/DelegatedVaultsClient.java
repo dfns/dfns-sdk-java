@@ -105,6 +105,11 @@ public class DelegatedVaultsClient {
         return httpClient.get("/vaults/" + vaultId + "/balances", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultBalanceEntry>>() {});
     }
 
+    /** List Vault History */
+    public PaginatedList<VaultHistoryEvent> listVaultHistory(String vaultId, ListVaultHistoryQuery query) {
+        return httpClient.get("/vaults/" + vaultId + "/history", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultHistoryEvent>>() {});
+    }
+
     /** List Vault Quarantines */
     public PaginatedList<VaultQuarantine> listVaultQuarantines(String vaultId, ListVaultQuarantinesQuery query) {
         return httpClient.get("/vaults/" + vaultId + "/quarantines", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<VaultQuarantine>>() {});
