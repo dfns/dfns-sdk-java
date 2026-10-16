@@ -118,14 +118,19 @@ public class AuthAsyncClient {
         return httpClient.putAsync("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Oidc Login Credentials */
+    public CompletableFuture<Credential> oidcLoginCredentials(Object body) {
+        return httpClient.postAsync("/auth/login/oidc/credentials", java.util.Map.of(), body, Credential.class, false);
+    }
+
     /** Complete OIDC Login */
-    public CompletableFuture<Object> oidcLogin(OidcLoginRequest body) {
-        return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    public CompletableFuture<OidcLoginResponse> oidcLogin(OidcLoginRequest body) {
+        return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, OidcLoginResponse.class, false);
     }
 
     /** @deprecated Use {@link #oidcLogin} instead. */
     @Deprecated
-    public CompletableFuture<Object> completeOidcLogin(OidcLoginRequest body) {
+    public CompletableFuture<OidcLoginResponse> completeOidcLogin(OidcLoginRequest body) {
         return oidcLogin(body);
     }
 
@@ -319,6 +324,17 @@ public class AuthAsyncClient {
     /** Deactivate Service Account */
     public CompletableFuture<DeactivateServiceAccountResponse> deactivateServiceAccount(String serviceAccountId, DeactivateServiceAccountRequest body) {
         return httpClient.putAsync("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, true);
+    }
+
+    /** Create Service Account Credential */
+    public CompletableFuture<Credential> createServiceAccountCredential(CreateServiceAccountCredentialRequest body) {
+        return httpClient.postAsync("/auth/service-accounts/credentials", java.util.Map.of(), body, Credential.class, true);
+    }
+
+    /** Delete Service Account Credential */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deleteServiceAccountCredential(String credentialUuid) {
+        return httpClient.deleteAsync("/auth/service-accounts/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 
     /** Activate User */

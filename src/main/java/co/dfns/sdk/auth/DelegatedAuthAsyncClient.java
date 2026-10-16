@@ -156,14 +156,19 @@ public class DelegatedAuthAsyncClient {
         return httpClient.putAsync("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Oidc Login Credentials */
+    public CompletableFuture<Credential> oidcLoginCredentials(Object body) {
+        return httpClient.postAsync("/auth/login/oidc/credentials", java.util.Map.of(), body, Credential.class, false);
+    }
+
     /** Complete OIDC Login */
-    public CompletableFuture<Object> oidcLogin(OidcLoginRequest body) {
-        return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    public CompletableFuture<OidcLoginResponse> oidcLogin(OidcLoginRequest body) {
+        return httpClient.postAsync("/auth/login/oidc", java.util.Map.of(), body, OidcLoginResponse.class, false);
     }
 
     /** @deprecated Use {@link #oidcLogin} instead. */
     @Deprecated
-    public CompletableFuture<Object> completeOidcLogin(OidcLoginRequest body) {
+    public CompletableFuture<OidcLoginResponse> completeOidcLogin(OidcLoginRequest body) {
         return oidcLogin(body);
     }
 
@@ -429,6 +434,29 @@ public class DelegatedAuthAsyncClient {
     public CompletableFuture<DeactivateServiceAccountResponse> deactivateServiceAccountComplete(String serviceAccountId, DeactivateServiceAccountRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Create Service Account Credential: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> createServiceAccountCredentialInit(CreateServiceAccountCredentialRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/auth/service-accounts/credentials", body);
+    }
+
+    /** Delegated signing step 2 for Create Service Account Credential: submits the signed challenge and issues the request. */
+    public CompletableFuture<Credential> createServiceAccountCredentialComplete(CreateServiceAccountCredentialRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/auth/service-accounts/credentials", java.util.Map.of(), body, Credential.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Delete Service Account Credential: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> deleteServiceAccountCredentialInit(String credentialUuid) {
+        return httpClient.createUserActionChallengeAsync("DELETE", "/auth/service-accounts/credentials/" + credentialUuid, null);
+    }
+
+    /** Delegated signing step 2 for Delete Service Account Credential: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deleteServiceAccountCredentialComplete(String credentialUuid, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/auth/service-accounts/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
     }
 
     /** Delegated signing step 1 for Activate User: returns the challenge to sign out-of-band. */

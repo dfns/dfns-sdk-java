@@ -14,6 +14,8 @@ public record User(
     @JsonProperty("kind") String kind,
     @JsonProperty("credentialUuid") String credentialUuid,
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("credentialId") String credentialId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("orgId") String orgId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("tenantId") String tenantId,

@@ -10,5 +10,7 @@ public record OidcLoginInitRequest(
     @JsonProperty("orgId") String orgId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("tenantId") String tenantId,
-    @JsonProperty("redirectUri") String redirectUri
+    @JsonProperty("redirectUri") String redirectUri,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("nonce") String nonce
 ) {}
