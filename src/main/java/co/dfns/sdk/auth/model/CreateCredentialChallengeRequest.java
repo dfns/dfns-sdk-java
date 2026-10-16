@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateCredentialChallengeRequest(
-    @JsonProperty("kind") CredentialKind kind
+    @JsonProperty("kind") String kind
 ) {}

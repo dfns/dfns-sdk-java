@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RevokePermissionQuery {
-    private Boolean force;
+    private Object force;
 
-    public RevokePermissionQuery force(Boolean force) {
+    public RevokePermissionQuery force(Object force) {
         this.force = force;
         return this;
     }

@@ -117,14 +117,19 @@ public class AuthClient {
         return httpClient.put("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Oidc Login Credentials */
+    public Credential oidcLoginCredentials(Object body) {
+        return httpClient.post("/auth/login/oidc/credentials", java.util.Map.of(), body, Credential.class, false);
+    }
+
     /** Complete OIDC Login */
-    public Object oidcLogin(OidcLoginRequest body) {
-        return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    public OidcLoginResponse oidcLogin(OidcLoginRequest body) {
+        return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, OidcLoginResponse.class, false);
     }
 
     /** @deprecated Use {@link #oidcLogin} instead. */
     @Deprecated
-    public Object completeOidcLogin(OidcLoginRequest body) {
+    public OidcLoginResponse completeOidcLogin(OidcLoginRequest body) {
         return oidcLogin(body);
     }
 
@@ -318,6 +323,17 @@ public class AuthClient {
     /** Deactivate Service Account */
     public DeactivateServiceAccountResponse deactivateServiceAccount(String serviceAccountId, DeactivateServiceAccountRequest body) {
         return httpClient.put("/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, true);
+    }
+
+    /** Create Service Account Credential */
+    public Credential createServiceAccountCredential(CreateServiceAccountCredentialRequest body) {
+        return httpClient.post("/auth/service-accounts/credentials", java.util.Map.of(), body, Credential.class, true);
+    }
+
+    /** Delete Service Account Credential */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deleteServiceAccountCredential(String credentialUuid) {
+        return httpClient.delete("/auth/service-accounts/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 
     /** Activate User */

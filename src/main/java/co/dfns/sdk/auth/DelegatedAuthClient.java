@@ -155,14 +155,19 @@ public class DelegatedAuthClient {
         return httpClient.put("/auth/logout", java.util.Map.of(), body, LogoutResponse.class, false);
     }
 
+    /** Oidc Login Credentials */
+    public Credential oidcLoginCredentials(Object body) {
+        return httpClient.post("/auth/login/oidc/credentials", java.util.Map.of(), body, Credential.class, false);
+    }
+
     /** Complete OIDC Login */
-    public Object oidcLogin(OidcLoginRequest body) {
-        return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, Object.class, false);
+    public OidcLoginResponse oidcLogin(OidcLoginRequest body) {
+        return httpClient.post("/auth/login/oidc", java.util.Map.of(), body, OidcLoginResponse.class, false);
     }
 
     /** @deprecated Use {@link #oidcLogin} instead. */
     @Deprecated
-    public Object completeOidcLogin(OidcLoginRequest body) {
+    public OidcLoginResponse completeOidcLogin(OidcLoginRequest body) {
         return oidcLogin(body);
     }
 
@@ -428,6 +433,29 @@ public class DelegatedAuthClient {
     public DeactivateServiceAccountResponse deactivateServiceAccountComplete(String serviceAccountId, DeactivateServiceAccountRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
         return httpClient.executeWithUserAction("PUT", "/auth/service-accounts/" + serviceAccountId + "/deactivate", java.util.Map.of(), body, DeactivateServiceAccountResponse.class, userAction);
+    }
+
+    /** Delegated signing step 1 for Create Service Account Credential: returns the challenge to sign out-of-band. */
+    public UserActionChallenge createServiceAccountCredentialInit(CreateServiceAccountCredentialRequest body) {
+        return httpClient.createUserActionChallenge("POST", "/auth/service-accounts/credentials", body);
+    }
+
+    /** Delegated signing step 2 for Create Service Account Credential: submits the signed challenge and issues the request. */
+    public Credential createServiceAccountCredentialComplete(CreateServiceAccountCredentialRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("POST", "/auth/service-accounts/credentials", java.util.Map.of(), body, Credential.class, userAction);
+    }
+
+    /** Delegated signing step 1 for Delete Service Account Credential: returns the challenge to sign out-of-band. */
+    public UserActionChallenge deleteServiceAccountCredentialInit(String credentialUuid) {
+        return httpClient.createUserActionChallenge("DELETE", "/auth/service-accounts/credentials/" + credentialUuid, null);
+    }
+
+    /** Delegated signing step 2 for Delete Service Account Credential: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deleteServiceAccountCredentialComplete(String credentialUuid, String challengeIdentifier, CredentialAssertion assertion) {
+        String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
+        return httpClient.executeWithUserAction("DELETE", "/auth/service-accounts/credentials/" + credentialUuid, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction);
     }
 
     /** Delegated signing step 1 for Activate User: returns the challenge to sign out-of-band. */
