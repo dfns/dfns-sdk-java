@@ -32,6 +32,8 @@ public enum AddressWatchNetwork {
     FlareCCoston2("FlareCCoston2"),
     FlowEvm("FlowEvm"),
     FlowEvmTestnet("FlowEvmTestnet"),
+    HyperEvm("HyperEvm"),
+    HyperEvmTestnet("HyperEvmTestnet"),
     Ink("Ink"),
     InkSepolia("InkSepolia"),
     Monad("Monad"),

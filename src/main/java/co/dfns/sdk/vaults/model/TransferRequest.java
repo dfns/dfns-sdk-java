@@ -17,6 +17,8 @@ public record TransferRequest(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("reason") String reason,
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("debugTrace") Map<String, Object> debugTrace,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("txHash") String txHash,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("fee") String fee,

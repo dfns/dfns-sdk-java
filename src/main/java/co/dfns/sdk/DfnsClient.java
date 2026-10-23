@@ -16,6 +16,7 @@ import co.dfns.sdk.policies.PoliciesClient;
 import co.dfns.sdk.signers.SignersClient;
 import co.dfns.sdk.staking.StakingClient;
 import co.dfns.sdk.swaps.SwapsClient;
+import co.dfns.sdk.tenant.TenantClient;
 import co.dfns.sdk.vaults.VaultsClient;
 import co.dfns.sdk.wallets.WalletsClient;
 import co.dfns.sdk.webhooks.WebhooksClient;
@@ -38,6 +39,7 @@ public class DfnsClient implements AutoCloseable {
     public final SignersClient signers;
     public final StakingClient staking;
     public final SwapsClient swaps;
+    public final TenantClient tenant;
     public final VaultsClient vaults;
     public final WalletsClient wallets;
     public final WebhooksClient webhooks;
@@ -59,6 +61,7 @@ public class DfnsClient implements AutoCloseable {
         this.signers = new SignersClient(httpClient);
         this.staking = new StakingClient(httpClient);
         this.swaps = new SwapsClient(httpClient);
+        this.tenant = new TenantClient(httpClient);
         this.vaults = new VaultsClient(httpClient);
         this.wallets = new WalletsClient(httpClient);
         this.webhooks = new WebhooksClient(httpClient);

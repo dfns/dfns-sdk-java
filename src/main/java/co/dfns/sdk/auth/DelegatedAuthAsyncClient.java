@@ -471,14 +471,14 @@ public class DelegatedAuthAsyncClient {
     }
 
     /** Delegated signing step 1 for Deactivate User: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> deactivateUserInit(String userId) {
-        return httpClient.createUserActionChallengeAsync("PUT", "/auth/users/" + userId + "/deactivate", null);
+    public CompletableFuture<UserActionChallenge> deactivateUserInit(String userId, DeactivateUserRequest body) {
+        return httpClient.createUserActionChallengeAsync("PUT", "/auth/users/" + userId + "/deactivate", body);
     }
 
     /** Delegated signing step 2 for Deactivate User: submits the signed challenge and issues the request. */
-    public CompletableFuture<User> deactivateUserComplete(String userId, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<User> deactivateUserComplete(String userId, DeactivateUserRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/auth/users/" + userId + "/deactivate", java.util.Map.of(), null, User.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/auth/users/" + userId + "/deactivate", java.util.Map.of(), body, User.class, userAction));
     }
 
     /** Get User */
@@ -534,5 +534,78 @@ public class DelegatedAuthAsyncClient {
     public CompletableFuture<Map<String, Object>> inviteTenantUserComplete(InviteTenantUserRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/auth/users/invite", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
+    }
+
+    /** List User Groups */
+    public CompletableFuture<PaginatedList<UserGroup>> listUserGroups(ListUserGroupsQuery query) {
+        return httpClient.getAsync("/auth/user-groups", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<UserGroup>>() {});
+    }
+
+    /** Delegated signing step 1 for Create User Group: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> createUserGroupInit(CreateUserGroupRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/auth/user-groups", body);
+    }
+
+    /** Delegated signing step 2 for Create User Group: submits the signed challenge and issues the request. */
+    public CompletableFuture<UserGroup> createUserGroupComplete(CreateUserGroupRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/auth/user-groups", java.util.Map.of(), body, UserGroup.class, userAction));
+    }
+
+    /** Get User Group */
+    public CompletableFuture<UserGroup> getUserGroup(String userGroupId) {
+        return httpClient.getAsync("/auth/user-groups/" + userGroupId, java.util.Map.of(), UserGroup.class);
+    }
+
+    /** Delegated signing step 1 for Update User Group: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> updateUserGroupInit(String userGroupId, UpdateUserGroupRequest body) {
+        return httpClient.createUserActionChallengeAsync("PUT", "/auth/user-groups/" + userGroupId, body);
+    }
+
+    /** Delegated signing step 2 for Update User Group: submits the signed challenge and issues the request. */
+    public CompletableFuture<UserGroup> updateUserGroupComplete(String userGroupId, UpdateUserGroupRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("PUT", "/auth/user-groups/" + userGroupId, java.util.Map.of(), body, UserGroup.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Delete User Group: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> deleteUserGroupInit(String userGroupId) {
+        return httpClient.createUserActionChallengeAsync("DELETE", "/auth/user-groups/" + userGroupId, null);
+    }
+
+    /** Delegated signing step 2 for Delete User Group: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> deleteUserGroupComplete(String userGroupId, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/auth/user-groups/" + userGroupId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
+    }
+
+    /** List User Group Members */
+    public CompletableFuture<PaginatedList<UserGroupMember>> listUserGroupMembers(String userGroupId, ListUserGroupMembersQuery query) {
+        return httpClient.getAsync("/auth/user-groups/" + userGroupId + "/members", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<UserGroupMember>>() {});
+    }
+
+    /** Delegated signing step 1 for Add User Group Members: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> addUserGroupMembersInit(String userGroupId, AddUserGroupMembersRequest body) {
+        return httpClient.createUserActionChallengeAsync("POST", "/auth/user-groups/" + userGroupId + "/members", body);
+    }
+
+    /** Delegated signing step 2 for Add User Group Members: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> addUserGroupMembersComplete(String userGroupId, AddUserGroupMembersRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/auth/user-groups/" + userGroupId + "/members", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
+    }
+
+    /** Delegated signing step 1 for Remove User Group Members: returns the challenge to sign out-of-band. */
+    public CompletableFuture<UserActionChallenge> removeUserGroupMembersInit(String userGroupId, RemoveUserGroupMembersRequest body) {
+        return httpClient.createUserActionChallengeAsync("DELETE", "/auth/user-groups/" + userGroupId + "/members", body);
+    }
+
+    /** Delegated signing step 2 for Remove User Group Members: submits the signed challenge and issues the request. */
+    @SuppressWarnings("unchecked")
+    public CompletableFuture<Map<String, Object>> removeUserGroupMembersComplete(String userGroupId, RemoveUserGroupMembersRequest body, String challengeIdentifier, CredentialAssertion assertion) {
+        return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/auth/user-groups/" + userGroupId + "/members", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, userAction));
     }
 }

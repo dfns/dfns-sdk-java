@@ -16,6 +16,7 @@ import co.dfns.sdk.policies.DelegatedPoliciesClient;
 import co.dfns.sdk.signers.DelegatedSignersClient;
 import co.dfns.sdk.staking.DelegatedStakingClient;
 import co.dfns.sdk.swaps.DelegatedSwapsClient;
+import co.dfns.sdk.tenant.DelegatedTenantClient;
 import co.dfns.sdk.vaults.DelegatedVaultsClient;
 import co.dfns.sdk.wallets.DelegatedWalletsClient;
 import co.dfns.sdk.webhooks.DelegatedWebhooksClient;
@@ -42,6 +43,7 @@ public class DfnsDelegatedClient implements AutoCloseable {
     public final DelegatedSignersClient signers;
     public final DelegatedStakingClient staking;
     public final DelegatedSwapsClient swaps;
+    public final DelegatedTenantClient tenant;
     public final DelegatedVaultsClient vaults;
     public final DelegatedWalletsClient wallets;
     public final DelegatedWebhooksClient webhooks;
@@ -63,6 +65,7 @@ public class DfnsDelegatedClient implements AutoCloseable {
         this.signers = new DelegatedSignersClient(httpClient);
         this.staking = new DelegatedStakingClient(httpClient);
         this.swaps = new DelegatedSwapsClient(httpClient);
+        this.tenant = new DelegatedTenantClient(httpClient);
         this.vaults = new DelegatedVaultsClient(httpClient);
         this.wallets = new DelegatedWalletsClient(httpClient);
         this.webhooks = new DelegatedWebhooksClient(httpClient);

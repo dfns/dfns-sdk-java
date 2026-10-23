@@ -15,6 +15,8 @@ public record AllocationAction(
     @JsonProperty("requester") Requester requester,
     @JsonProperty("requestBody") Object requestBody,
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("feeSponsorId") String feeSponsorId,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("failureReason") String failureReason,
     @JsonProperty("dateCreated") String dateCreated
 ) {}
