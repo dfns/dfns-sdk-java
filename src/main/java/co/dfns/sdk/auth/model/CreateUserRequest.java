@@ -9,9 +9,9 @@ public record CreateUserRequest(
     @JsonProperty("email") String email,
     @JsonProperty("kind") String kind,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("publicKey") String publicKey,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("externalId") String externalId,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("isSSORequired") Boolean isSSORequired
+    @JsonProperty("isSSORequired") Boolean isSSORequired,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("registration") String registration
 ) {}

@@ -16,6 +16,7 @@ import co.dfns.sdk.policies.DelegatedPoliciesAsyncClient;
 import co.dfns.sdk.signers.DelegatedSignersAsyncClient;
 import co.dfns.sdk.staking.DelegatedStakingAsyncClient;
 import co.dfns.sdk.swaps.DelegatedSwapsAsyncClient;
+import co.dfns.sdk.tenant.DelegatedTenantAsyncClient;
 import co.dfns.sdk.vaults.DelegatedVaultsAsyncClient;
 import co.dfns.sdk.wallets.DelegatedWalletsAsyncClient;
 import co.dfns.sdk.webhooks.DelegatedWebhooksAsyncClient;
@@ -42,6 +43,7 @@ public class DfnsDelegatedAsyncClient implements AutoCloseable {
     public final DelegatedSignersAsyncClient signers;
     public final DelegatedStakingAsyncClient staking;
     public final DelegatedSwapsAsyncClient swaps;
+    public final DelegatedTenantAsyncClient tenant;
     public final DelegatedVaultsAsyncClient vaults;
     public final DelegatedWalletsAsyncClient wallets;
     public final DelegatedWebhooksAsyncClient webhooks;
@@ -63,6 +65,7 @@ public class DfnsDelegatedAsyncClient implements AutoCloseable {
         this.signers = new DelegatedSignersAsyncClient(httpClient);
         this.staking = new DelegatedStakingAsyncClient(httpClient);
         this.swaps = new DelegatedSwapsAsyncClient(httpClient);
+        this.tenant = new DelegatedTenantAsyncClient(httpClient);
         this.vaults = new DelegatedVaultsAsyncClient(httpClient);
         this.wallets = new DelegatedWalletsAsyncClient(httpClient);
         this.webhooks = new DelegatedWebhooksAsyncClient(httpClient);

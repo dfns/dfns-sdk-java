@@ -52,6 +52,8 @@ public enum Network {
     FlowEvmTestnet("FlowEvmTestnet"),
     Hedera("Hedera"),
     HederaTestnet("HederaTestnet"),
+    HyperEvm("HyperEvm"),
+    HyperEvmTestnet("HyperEvmTestnet"),
     Ink("Ink"),
     InkSepolia("InkSepolia"),
     InternetComputer("InternetComputer"),

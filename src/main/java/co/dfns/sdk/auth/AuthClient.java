@@ -342,8 +342,8 @@ public class AuthClient {
     }
 
     /** Deactivate User */
-    public User deactivateUser(String userId) {
-        return httpClient.put("/auth/users/" + userId + "/deactivate", java.util.Map.of(), null, User.class, true);
+    public User deactivateUser(String userId, DeactivateUserRequest body) {
+        return httpClient.put("/auth/users/" + userId + "/deactivate", java.util.Map.of(), body, User.class, true);
     }
 
     /** Get User */
@@ -375,5 +375,48 @@ public class AuthClient {
     @SuppressWarnings("unchecked")
     public Map<String, Object> inviteTenantUser(InviteTenantUserRequest body) {
         return httpClient.post("/auth/users/invite", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
+    /** List User Groups */
+    public PaginatedList<UserGroup> listUserGroups(ListUserGroupsQuery query) {
+        return httpClient.get("/auth/user-groups", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<UserGroup>>() {});
+    }
+
+    /** Create User Group */
+    public UserGroup createUserGroup(CreateUserGroupRequest body) {
+        return httpClient.post("/auth/user-groups", java.util.Map.of(), body, UserGroup.class, true);
+    }
+
+    /** Get User Group */
+    public UserGroup getUserGroup(String userGroupId) {
+        return httpClient.get("/auth/user-groups/" + userGroupId, java.util.Map.of(), UserGroup.class);
+    }
+
+    /** Update User Group */
+    public UserGroup updateUserGroup(String userGroupId, UpdateUserGroupRequest body) {
+        return httpClient.put("/auth/user-groups/" + userGroupId, java.util.Map.of(), body, UserGroup.class, true);
+    }
+
+    /** Delete User Group */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> deleteUserGroup(String userGroupId) {
+        return httpClient.delete("/auth/user-groups/" + userGroupId, java.util.Map.of(), null, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
+    /** List User Group Members */
+    public PaginatedList<UserGroupMember> listUserGroupMembers(String userGroupId, ListUserGroupMembersQuery query) {
+        return httpClient.get("/auth/user-groups/" + userGroupId + "/members", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<UserGroupMember>>() {});
+    }
+
+    /** Add User Group Members */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> addUserGroupMembers(String userGroupId, AddUserGroupMembersRequest body) {
+        return httpClient.post("/auth/user-groups/" + userGroupId + "/members", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
+    }
+
+    /** Remove User Group Members */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> removeUserGroupMembers(String userGroupId, RemoveUserGroupMembersRequest body) {
+        return httpClient.delete("/auth/user-groups/" + userGroupId + "/members", java.util.Map.of(), body, (Class<Map<String, Object>>) (Class<?>) Map.class, true);
     }
 }
