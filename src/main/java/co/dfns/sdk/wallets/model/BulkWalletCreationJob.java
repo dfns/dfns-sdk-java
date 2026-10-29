@@ -10,7 +10,7 @@ public record BulkWalletCreationJob(
     @JsonProperty("id") String id,
     @JsonProperty("orgId") String orgId,
     @JsonProperty("status") String status,
-    @JsonProperty("network") Network network,
+    @JsonProperty("networks") List<Network> networks,
     @JsonProperty("namePrefix") String namePrefix,
     @JsonProperty("tags") List<String> tags,
     @JsonProperty("totalCount") long totalCount,

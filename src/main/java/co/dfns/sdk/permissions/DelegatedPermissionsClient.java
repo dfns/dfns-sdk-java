@@ -91,13 +91,13 @@ public class DelegatedPermissionsClient {
     }
 
     /** Delegated signing step 1 for Revoke Permission: returns the challenge to sign out-of-band. */
-    public UserActionChallenge revokePermissionInit(String permissionId, String assignmentId) {
-        return httpClient.createUserActionChallenge("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, null);
+    public UserActionChallenge revokePermissionInit(String permissionId, String assignmentId, RevokePermissionRequest body) {
+        return httpClient.createUserActionChallenge("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, body);
     }
 
     /** Delegated signing step 2 for Revoke Permission: submits the signed challenge and issues the request. */
-    public Void revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionQuery query, String challengeIdentifier, CredentialAssertion assertion) {
+    public Void revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         String userAction = httpClient.completeUserActionSigning(challengeIdentifier, assertion);
-        return httpClient.executeWithUserAction("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, userAction);
+        return httpClient.executeWithUserAction("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, java.util.Map.of(), body, Void.class, userAction);
     }
 }

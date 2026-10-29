@@ -57,4 +57,9 @@ public class PoliciesClient {
     public PaginatedList<PolicyApproval> listApprovals(ListApprovalsQuery query) {
         return httpClient.get("/v2/policy-approvals", query.toMap(), new com.fasterxml.jackson.core.type.TypeReference<PaginatedList<PolicyApproval>>() {});
     }
+
+    /** Look up the Sumsub Travel Rule VASP of a wallet address */
+    public Object lookupSumsubTravelRuleVasp(LookupSumsubTravelRuleVaspRequest body) {
+        return httpClient.post("/v2/policies/travel-rule/sumsub/vasp-lookup", java.util.Map.of(), body, Object.class, false);
+    }
 }

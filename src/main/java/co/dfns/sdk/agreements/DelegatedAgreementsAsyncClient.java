@@ -19,6 +19,11 @@ public class DelegatedAgreementsAsyncClient {
         return httpClient.getAsync("/agreements/latest-unaccepted", query.toMap(), GetLatestUnacceptedAgreementResponse.class);
     }
 
+    /** Get Latest Agreements */
+    public CompletableFuture<GetLatestAgreementsResponse> getLatestAgreements() {
+        return httpClient.getAsync("/dashboard/agreements/latest", java.util.Map.of(), GetLatestAgreementsResponse.class);
+    }
+
     /** Delegated signing step 1 for Record Agreement Acceptance: returns the challenge to sign out-of-band. */
     public CompletableFuture<UserActionChallenge> recordAgreementAcceptanceInit(String agreementId) {
         return httpClient.createUserActionChallengeAsync("POST", "/agreements/" + agreementId + "/accept", null);

@@ -60,7 +60,7 @@ public class PermissionsAsyncClient {
     }
 
     /** Revoke Permission */
-    public CompletableFuture<Void> revokePermission(String permissionId, String assignmentId, RevokePermissionQuery query) {
-        return httpClient.deleteAsync("/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, true);
+    public CompletableFuture<Void> revokePermission(String permissionId, String assignmentId, RevokePermissionRequest body) {
+        return httpClient.deleteAsync("/permissions/" + permissionId + "/assignments/" + assignmentId, java.util.Map.of(), body, Void.class, true);
     }
 }
