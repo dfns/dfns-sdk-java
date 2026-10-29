@@ -7,7 +7,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record BulkCreateWalletsRequest(
-    @JsonProperty("network") BulkWalletNetwork network,
+    @JsonProperty("networks") List<BulkWalletNetwork> networks,
     @JsonProperty("count") long count,
     @JsonProperty("name") String name,
     @JsonInclude(JsonInclude.Include.NON_NULL)

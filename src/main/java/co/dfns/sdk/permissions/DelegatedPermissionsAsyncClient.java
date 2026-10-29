@@ -92,13 +92,13 @@ public class DelegatedPermissionsAsyncClient {
     }
 
     /** Delegated signing step 1 for Revoke Permission: returns the challenge to sign out-of-band. */
-    public CompletableFuture<UserActionChallenge> revokePermissionInit(String permissionId, String assignmentId) {
-        return httpClient.createUserActionChallengeAsync("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, null);
+    public CompletableFuture<UserActionChallenge> revokePermissionInit(String permissionId, String assignmentId, RevokePermissionRequest body) {
+        return httpClient.createUserActionChallengeAsync("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, body);
     }
 
     /** Delegated signing step 2 for Revoke Permission: submits the signed challenge and issues the request. */
-    public CompletableFuture<Void> revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionQuery query, String challengeIdentifier, CredentialAssertion assertion) {
+    public CompletableFuture<Void> revokePermissionComplete(String permissionId, String assignmentId, RevokePermissionRequest body, String challengeIdentifier, CredentialAssertion assertion) {
         return httpClient.completeUserActionSigningAsync(challengeIdentifier, assertion)
-            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, userAction));
+            .thenCompose(userAction -> httpClient.executeWithUserActionAsync("DELETE", "/permissions/" + permissionId + "/assignments/" + assignmentId, java.util.Map.of(), body, Void.class, userAction));
     }
 }

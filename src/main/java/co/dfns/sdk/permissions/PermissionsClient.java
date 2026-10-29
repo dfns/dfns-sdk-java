@@ -59,7 +59,7 @@ public class PermissionsClient {
     }
 
     /** Revoke Permission */
-    public Void revokePermission(String permissionId, String assignmentId, RevokePermissionQuery query) {
-        return httpClient.delete("/permissions/" + permissionId + "/assignments/" + assignmentId, query.toMap(), null, Void.class, true);
+    public Void revokePermission(String permissionId, String assignmentId, RevokePermissionRequest body) {
+        return httpClient.delete("/permissions/" + permissionId + "/assignments/" + assignmentId, java.util.Map.of(), body, Void.class, true);
     }
 }

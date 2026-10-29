@@ -18,6 +18,11 @@ public class DelegatedAgreementsClient {
         return httpClient.get("/agreements/latest-unaccepted", query.toMap(), GetLatestUnacceptedAgreementResponse.class);
     }
 
+    /** Get Latest Agreements */
+    public GetLatestAgreementsResponse getLatestAgreements() {
+        return httpClient.get("/dashboard/agreements/latest", java.util.Map.of(), GetLatestAgreementsResponse.class);
+    }
+
     /** Delegated signing step 1 for Record Agreement Acceptance: returns the challenge to sign out-of-band. */
     public UserActionChallenge recordAgreementAcceptanceInit(String agreementId) {
         return httpClient.createUserActionChallenge("POST", "/agreements/" + agreementId + "/accept", null);

@@ -16,6 +16,11 @@ public class AgreementsClient {
         return httpClient.get("/agreements/latest-unaccepted", query.toMap(), GetLatestUnacceptedAgreementResponse.class);
     }
 
+    /** Get Latest Agreements */
+    public GetLatestAgreementsResponse getLatestAgreements() {
+        return httpClient.get("/dashboard/agreements/latest", java.util.Map.of(), GetLatestAgreementsResponse.class);
+    }
+
     /** Record Agreement Acceptance */
     public RecordAgreementAcceptanceResponse recordAgreementAcceptance(String agreementId) {
         return httpClient.post("/agreements/" + agreementId + "/accept", java.util.Map.of(), null, RecordAgreementAcceptanceResponse.class, true);

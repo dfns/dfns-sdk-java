@@ -17,6 +17,11 @@ public class AgreementsAsyncClient {
         return httpClient.getAsync("/agreements/latest-unaccepted", query.toMap(), GetLatestUnacceptedAgreementResponse.class);
     }
 
+    /** Get Latest Agreements */
+    public CompletableFuture<GetLatestAgreementsResponse> getLatestAgreements() {
+        return httpClient.getAsync("/dashboard/agreements/latest", java.util.Map.of(), GetLatestAgreementsResponse.class);
+    }
+
     /** Record Agreement Acceptance */
     public CompletableFuture<RecordAgreementAcceptanceResponse> recordAgreementAcceptance(String agreementId) {
         return httpClient.postAsync("/agreements/" + agreementId + "/accept", java.util.Map.of(), null, RecordAgreementAcceptanceResponse.class, true);
