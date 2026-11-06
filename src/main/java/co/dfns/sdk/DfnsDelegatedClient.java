@@ -2,7 +2,6 @@ package co.dfns.sdk;
 
 import co.dfns.sdk.internal.DfnsHttpClient;
 import co.dfns.sdk.addresswatches.DelegatedAddressWatchesClient;
-import co.dfns.sdk.agreements.DelegatedAgreementsClient;
 import co.dfns.sdk.allocations.DelegatedAllocationsClient;
 import co.dfns.sdk.auth.DelegatedAuthClient;
 import co.dfns.sdk.exchanges.DelegatedExchangesClient;
@@ -29,7 +28,6 @@ import co.dfns.sdk.webhooks.DelegatedWebhooksClient;
 public class DfnsDelegatedClient implements AutoCloseable {
     private final DfnsHttpClient httpClient;
     public final DelegatedAddressWatchesClient addressWatches;
-    public final DelegatedAgreementsClient agreements;
     public final DelegatedAllocationsClient allocations;
     public final DelegatedAuthClient auth;
     public final DelegatedExchangesClient exchanges;
@@ -51,7 +49,6 @@ public class DfnsDelegatedClient implements AutoCloseable {
     public DfnsDelegatedClient(DfnsClientConfig config) {
         this.httpClient = new DfnsHttpClient(config);
         this.addressWatches = new DelegatedAddressWatchesClient(httpClient);
-        this.agreements = new DelegatedAgreementsClient(httpClient);
         this.allocations = new DelegatedAllocationsClient(httpClient);
         this.auth = new DelegatedAuthClient(httpClient);
         this.exchanges = new DelegatedExchangesClient(httpClient);
