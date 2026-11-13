@@ -151,6 +151,11 @@ public class WalletsAsyncClient {
         return httpClient.postAsync("/wallets/" + walletId + "/transfers", java.util.Map.of(), body, TransferRequest.class, true);
     }
 
+    /** Search Wallets */
+    public CompletableFuture<SearchWalletsResponse> searchWallets(SearchWalletsRequest body) {
+        return httpClient.postAsync("/wallets/search", java.util.Map.of(), body, SearchWalletsResponse.class, false);
+    }
+
     /** Tag Wallet */
     @SuppressWarnings("unchecked")
     public CompletableFuture<Map<String, Object>> tagWallet(String walletId, TagWalletRequest body) {

@@ -150,6 +150,11 @@ public class WalletsClient {
         return httpClient.post("/wallets/" + walletId + "/transfers", java.util.Map.of(), body, TransferRequest.class, true);
     }
 
+    /** Search Wallets */
+    public SearchWalletsResponse searchWallets(SearchWalletsRequest body) {
+        return httpClient.post("/wallets/search", java.util.Map.of(), body, SearchWalletsResponse.class, false);
+    }
+
     /** Tag Wallet */
     @SuppressWarnings("unchecked")
     public Map<String, Object> tagWallet(String walletId, TagWalletRequest body) {
