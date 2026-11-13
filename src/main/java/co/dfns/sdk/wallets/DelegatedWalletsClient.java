@@ -230,6 +230,11 @@ public class DelegatedWalletsClient {
         return httpClient.executeWithUserAction("POST", "/wallets/" + walletId + "/transfers", java.util.Map.of(), body, TransferRequest.class, userAction);
     }
 
+    /** Search Wallets */
+    public SearchWalletsResponse searchWallets(SearchWalletsRequest body) {
+        return httpClient.post("/wallets/search", java.util.Map.of(), body, SearchWalletsResponse.class, false);
+    }
+
     /** Delegated signing step 1 for Tag Wallet: returns the challenge to sign out-of-band. */
     public UserActionChallenge tagWalletInit(String walletId, TagWalletRequest body) {
         return httpClient.createUserActionChallenge("PUT", "/wallets/" + walletId + "/tags", body);

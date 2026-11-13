@@ -231,6 +231,11 @@ public class DelegatedWalletsAsyncClient {
             .thenCompose(userAction -> httpClient.executeWithUserActionAsync("POST", "/wallets/" + walletId + "/transfers", java.util.Map.of(), body, TransferRequest.class, userAction));
     }
 
+    /** Search Wallets */
+    public CompletableFuture<SearchWalletsResponse> searchWallets(SearchWalletsRequest body) {
+        return httpClient.postAsync("/wallets/search", java.util.Map.of(), body, SearchWalletsResponse.class, false);
+    }
+
     /** Delegated signing step 1 for Tag Wallet: returns the challenge to sign out-of-band. */
     public CompletableFuture<UserActionChallenge> tagWalletInit(String walletId, TagWalletRequest body) {
         return httpClient.createUserActionChallengeAsync("PUT", "/wallets/" + walletId + "/tags", body);
